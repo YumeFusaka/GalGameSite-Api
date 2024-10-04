@@ -21,4 +21,6 @@ public class GalGameVO {
     String nick;
 
     Long subjectId;
+
+    String url;
 }

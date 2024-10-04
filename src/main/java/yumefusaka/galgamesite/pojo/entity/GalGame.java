@@ -35,4 +35,7 @@ public class GalGame {
 
     @TableField("subject_id")
     Long subjectId;
+
+    @TableField("url")
+    String url;
 }
