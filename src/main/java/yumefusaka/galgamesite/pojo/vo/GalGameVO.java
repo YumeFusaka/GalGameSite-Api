@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class GalGameVO {
 
-    Long id;
-
     String name;
 
     String info;
