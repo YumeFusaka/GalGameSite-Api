@@ -42,4 +42,46 @@
         where
             qq = #{qq}
     </select>
+
+    <select id="galGameVoteResultByUser" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultByUserVO">
+        select
+            v.id,
+            v.vote_num as voteByUser,
+            g.subject_id as subjectId,
+            g.url,
+            g.name,
+            g.nick,
+            g.rank,
+            g.votes,
+            g.info,
+            g.score,
+            t.myVote
+        from
+            galgame_vote v
+                left join galgame g on v.subject_id = g.subject_id
+                left join (
+                select
+                    subject_id,
+                    sum(vote_num) as myVote
+                from
+                    galgame_vote
+                group by subject_id
+            ) t on v.subject_id = t.subject_id
+        where
+            v.qq = #{qq}
+          and v.subject_id = #{subjectId}
+    </select>
+
+    <select id="galGameVoteResultRank" resultType="java.lang.Long">
+        SELECT myRank FROM (
+             SELECT
+                 subject_id,
+                 ROW_NUMBER() OVER (ORDER BY sum(vote_num) DESC) AS myRank
+             FROM
+                 galgame_vote
+             GROUP BY
+                 subject_id
+         ) AS rank_table
+        WHERE subject_id = #{subjectId}
+    </select>
 </mapper>

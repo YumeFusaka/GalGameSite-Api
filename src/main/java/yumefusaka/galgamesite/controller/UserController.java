@@ -11,13 +11,11 @@ import yumefusaka.galgamesite.common.properties.JwtProperties;
 import yumefusaka.galgamesite.common.result.Result;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameVoteItemSearchDTO;
+import yumefusaka.galgamesite.pojo.dto.GalGameVoteResultByUserDTO;
 import yumefusaka.galgamesite.pojo.dto.UserLoginDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.entity.User;
-import yumefusaka.galgamesite.pojo.vo.GalGameVoteHistoryVO;
-import yumefusaka.galgamesite.pojo.vo.GalGameVoteItemSearchVO;
-import yumefusaka.galgamesite.pojo.vo.GalGameVoteResultVO;
-import yumefusaka.galgamesite.pojo.vo.LoginVO;
+import yumefusaka.galgamesite.pojo.vo.*;
 import yumefusaka.galgamesite.service.IGalGameService;
 import yumefusaka.galgamesite.service.IGalGameVoteService;
 import yumefusaka.galgamesite.service.IUserService;
@@ -97,6 +95,13 @@ public class UserController {
     @GetMapping("/activity/galGameVoteByUseCount")
     public Result<Integer> galGameVoteByUseCount () {
         return Result.success(galGameVoteService.galGameVoteByUseSum());
+    }
+
+    @Operation(summary = "获取作品信息与投票数")
+    @PostMapping("/activity/galGameVoteResultByUser")
+    public Result<GalGameVoteResultByUserVO> galGameVoteResultByUser(@RequestBody GalGameVoteResultByUserDTO galGameVoteResultByUserDTO){
+        log.info("{}",galGameVoteResultByUserDTO.getSubjectId());
+        return Result.success(galGameVoteService.galGameVoteResultByUser(galGameVoteResultByUserDTO));
     }
 
 }
