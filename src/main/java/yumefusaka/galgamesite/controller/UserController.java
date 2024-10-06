@@ -93,4 +93,10 @@ public class UserController {
         return Result.success(galGameVoteHistoryVOS);
     }
 
+    @Operation(summary = "获取本人已投的总票数")
+    @GetMapping("/activity/galGameVoteByUseCount")
+    public Result<Integer> galGameVoteByUseCount () {
+        return Result.success(galGameVoteService.galGameVoteByUseSum());
+    }
+
 }

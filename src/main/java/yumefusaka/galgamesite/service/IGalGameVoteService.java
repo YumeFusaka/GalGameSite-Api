@@ -11,4 +11,6 @@ public interface IGalGameVoteService extends IService<GalGameVote> {
     List<GalGameVoteResultVO> getGalGameVoteResult();
 
     List<GalGameVoteHistoryVO> getGalGameVoteHistory();
+
+    Integer galGameVoteByUseSum();
 }

@@ -33,4 +33,13 @@
         GROUP BY
             v.subject_id
     </select>
+
+    <select id="galGameVoteByUseCount" resultType="java.lang.Integer">
+        select
+            sum(v.vote_num)
+        FROM
+            galgame_vote v
+        where
+            qq = #{qq}
+    </select>
 </mapper>

@@ -31,15 +31,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         //1.获取请求url
         //2.判断请求url中是否包含login，如果包含，说明是登录操作，放行
         //3.获取请求头中的令牌（token）
-        String token = request.getHeader("Authorization").substring(7);
+        String token = request.getHeader("Authorization");
         log.info("从请求头中获取的令牌：{}", token);
-
         //4.判断令牌是否存在，如果不存在，返回错误结果（未登录）
         if (!StringUtils.hasLength(token)) {
             log.info("Token不存在");
 
             //创建响应结果对象
-            Result responseResult = Result.noToken("NOT_LOGIN");
+            Result responseResult = Result.noToken("请先登录喵~");
             //把Result对象转换为JSON格式字符串 (fastjson是阿里巴巴提供的用于实现对象和json的转换工具类)
             String json = JSONObject.toJSONString(responseResult);
             //设置状态码
@@ -48,9 +47,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             response.setContentType("application/json;charset=utf-8");
             //响应
             response.getWriter().write(json);
-
             return false;//不放行
         }
+
+        token = token.substring(7);
 
         //5.解析token，如果解析失败，返回错误结果（未登录）
         try {

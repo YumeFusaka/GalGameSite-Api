@@ -13,4 +13,6 @@ public interface GalGameVoteMapper extends BaseMapper<GalGameVote> {
     List<GalGameVoteResultVO> selectGalGameVoteResult();
 
     List<GalGameVoteHistoryVO> selectGalGameVoteHistory(String qq);
+
+    Integer galGameVoteByUseCount(String qq);
 }

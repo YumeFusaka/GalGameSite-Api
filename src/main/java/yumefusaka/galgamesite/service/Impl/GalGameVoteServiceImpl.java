@@ -33,4 +33,11 @@ public class GalGameVoteServiceImpl extends ServiceImpl<GalGameVoteMapper, GalGa
         BaseContext.removeCurrentId();
         return galGameVoteMapper.selectGalGameVoteHistory(qq);
     }
+
+    @Override
+    public Integer galGameVoteByUseSum() {
+        String qq = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
+        return galGameVoteMapper.galGameVoteByUseCount(qq);
+    }
 }
