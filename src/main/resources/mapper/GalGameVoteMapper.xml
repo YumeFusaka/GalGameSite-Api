@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yumefusaka.galgamesite.mapper.GalGameVoteMapper">
+
+    <select id="selectGalGameVoteResult" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultVO">
+        select
+            sum(v.vote_num) as myVote,
+            g.*
+        FROM
+            galgame_vote v
+                LEFT JOIN
+            galgame g ON v.subject_id = g.subject_id
+        GROUP BY
+            v.subject_id
+        ORDER BY
+            myVote DESC
+    </select>
+
+    <select id="selectGalGameVoteHistory" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteHistoryVO">
+        select
+            v.id,
+            v.vote_num as voteByMe,
+            g.subject_id as subjectId,
+            g.url,
+            g.name
+        FROM
+            galgame_vote v
+        LEFT JOIN
+            galgame g ON v.subject_id = g.subject_id
+        where
+            qq = #{qq}
+        GROUP BY
+            v.subject_id
+    </select>
+</mapper>
