@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class GalGameVoteItemSearchVO {
-    long subjectId;
+    Long subjectId;
 
     String name;
 
-    long totalVote;
+    Long totalVote;
 
     String url;
 }

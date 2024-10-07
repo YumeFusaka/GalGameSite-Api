@@ -16,13 +16,13 @@ public class User {
 
     String qq;
 
-    Integer q_year;
+    Integer qYear;
 
     String gender;
 
-    String nick_name;
+    String nickName;
 
-    String group_name;
+    String groupName;
 
-    LocalDateTime enter_time;
+    LocalDateTime enterTime;
 }

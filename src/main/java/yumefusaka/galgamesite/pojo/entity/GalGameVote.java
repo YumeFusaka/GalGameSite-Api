@@ -21,9 +21,9 @@ public class GalGameVote {
 
     private Integer qq;
 
-    private String nick;
+    private String qqName;
 
     private LocalDateTime updateTime;
 
-    private String name;
+    private String gameName;
 }

@@ -52,7 +52,7 @@ public class UserController {
         claims.put("qq", user.getQq());
         String token = JwtUtils.createToken(jwtProperties.getSecretKey(), jwtProperties.getTtl(), claims);
         loginVO.setToken(token);
-        loginVO.setNick_name(user.getNick_name());
+        loginVO.setNickName(user.getNickName());
         return Result.success(loginVO);
     }
 

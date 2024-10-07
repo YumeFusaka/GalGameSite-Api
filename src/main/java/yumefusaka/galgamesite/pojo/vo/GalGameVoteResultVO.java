@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 public class GalGameVoteResultVO extends GalGameVO {
 
-    long myVote;
+    Long myVote;
 
-    long myRank;
+    Long myRank;
 }

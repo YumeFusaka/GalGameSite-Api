@@ -6,8 +6,7 @@
     <select id="selectGalGameVoteResult" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultVO">
         select
             sum(v.vote_num) as myVote,
-            g.*,
-            g.subject_id as subjectId
+            g.*
         FROM
             galgame_vote v
                 LEFT JOIN
@@ -22,7 +21,7 @@
         select
             v.id,
             v.vote_num as voteByMe,
-            g.subject_id as subjectId,
+            g.subject_id,
             g.url,
             g.name
         FROM
@@ -48,7 +47,8 @@
         select
             v.id,
             v.vote_num as voteByUser,
-            g.subject_id as subjectId,
+            v.qq_name,
+            g.subject_id,
             g.url,
             g.name,
             g.nick,

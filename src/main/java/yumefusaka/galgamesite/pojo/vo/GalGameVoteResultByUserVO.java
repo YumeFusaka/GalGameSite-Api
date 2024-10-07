@@ -1,5 +1,6 @@
 package yumefusaka.galgamesite.pojo.vo;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

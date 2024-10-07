@@ -6,7 +6,7 @@
     <select id="galGameVoteItemSearch" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteItemSearchVO">
         SELECT
             g.name,
-            g.subject_id as subjectId,
+            g.subject_id,
             g.url,
             IFNULL(SUM(v.vote_num), 0) AS totalVote
         FROM
