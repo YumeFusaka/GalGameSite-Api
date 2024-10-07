@@ -20,4 +20,6 @@ public interface GalGameVoteMapper extends BaseMapper<GalGameVote> {
     GalGameVoteResultByUserVO galGameVoteResultByUser(String qq, Long subjectId);
 
     Long galGameVoteResultRank(Long subjectId);
+
+    Long galGameVoteResultVote(Long subjectId);
 }

@@ -72,6 +72,8 @@ public class GalGameVoteServiceImpl extends ServiceImpl<GalGameVoteMapper, GalGa
         if(!galGameVote2.isEmpty()){
             galGameVoteResultByUserVO.setMyRank(
                     galGameVoteMapper.galGameVoteResultRank(galGameVoteResultByUserDTO.getSubjectId()));
+            Long myVote = galGameVoteMapper.galGameVoteResultVote(galGameVoteResultByUserDTO.getSubjectId());
+            galGameVoteResultByUserVO.setMyVote(myVote);
         }
         return galGameVoteResultByUserVO;
     }

@@ -85,4 +85,18 @@
          ) AS rank_table
         WHERE subject_id = #{subjectId}
     </select>
+
+    <select id="galGameVoteResultVote" resultType="java.lang.Long">
+        select
+            sum(v.vote_num) as myVote
+        FROM
+            galgame_vote v
+                LEFT JOIN
+            galgame g ON v.subject_id = g.subject_id
+        WHERE
+            v.subject_id = #{subjectId}
+        GROUP BY
+            v.subject_id
+
+    </select>
 </mapper>
