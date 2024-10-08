@@ -2,6 +2,7 @@ package yumefusaka.galgamesite.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import yumefusaka.galgamesite.pojo.dto.GalGameVoteResultByUserDTO;
+import yumefusaka.galgamesite.pojo.dto.GalGameVoteSubmitDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGameVote;
 import yumefusaka.galgamesite.pojo.vo.GalGameVoteHistoryVO;
 import yumefusaka.galgamesite.pojo.vo.GalGameVoteResultByUserVO;
@@ -19,4 +20,6 @@ public interface IGalGameVoteService extends IService<GalGameVote> {
     GalGameVoteResultByUserVO galGameVoteResultByUser(GalGameVoteResultByUserDTO galGameVoteResultByUserDTO);
 
     Long galGameVoteResultRank(Long subjectId);
+
+    void galGameVoteSubmit(GalGameVoteSubmitDTO galGameVoteResultByUserDTO) throws Exception;
 }

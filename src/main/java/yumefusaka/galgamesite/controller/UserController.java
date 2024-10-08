@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import yumefusaka.galgamesite.common.properties.JwtProperties;
 import yumefusaka.galgamesite.common.result.Result;
-import yumefusaka.galgamesite.pojo.dto.GalGameSearchDTO;
-import yumefusaka.galgamesite.pojo.dto.GalGameVoteItemSearchDTO;
-import yumefusaka.galgamesite.pojo.dto.GalGameVoteResultByUserDTO;
-import yumefusaka.galgamesite.pojo.dto.UserLoginDTO;
+import yumefusaka.galgamesite.pojo.dto.*;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.entity.User;
 import yumefusaka.galgamesite.pojo.vo.*;
@@ -100,8 +97,14 @@ public class UserController {
     @Operation(summary = "获取作品信息与投票数")
     @PostMapping("/activity/galGameVoteResultByUser")
     public Result<GalGameVoteResultByUserVO> galGameVoteResultByUser(@RequestBody GalGameVoteResultByUserDTO galGameVoteResultByUserDTO){
-        log.info("{}",galGameVoteResultByUserDTO.getSubjectId());
         return Result.success(galGameVoteService.galGameVoteResultByUser(galGameVoteResultByUserDTO));
+    }
+
+    @Operation(summary = "")
+    @PostMapping("/activity/galGameVoteSubmit")
+    public Result<String> galGameVoteSubmit(@RequestBody GalGameVoteSubmitDTO galGameVoteResultByUserDTO) throws Exception {
+        galGameVoteService.galGameVoteSubmit(galGameVoteResultByUserDTO);
+        return Result.success("投票成功");
     }
 
 }
