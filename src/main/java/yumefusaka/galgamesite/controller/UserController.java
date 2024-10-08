@@ -100,7 +100,7 @@ public class UserController {
         return Result.success(galGameVoteService.galGameVoteResultByUser(galGameVoteResultByUserDTO));
     }
 
-    @Operation(summary = "")
+    @Operation(summary = "发起投票")
     @PostMapping("/activity/galGameVoteSubmit")
     public Result<String> galGameVoteSubmit(@RequestBody GalGameVoteSubmitDTO galGameVoteResultByUserDTO) throws Exception {
         galGameVoteService.galGameVoteSubmit(galGameVoteResultByUserDTO);
