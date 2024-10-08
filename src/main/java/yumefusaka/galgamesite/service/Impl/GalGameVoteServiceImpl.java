@@ -51,7 +51,11 @@ public class GalGameVoteServiceImpl extends ServiceImpl<GalGameVoteMapper, GalGa
     public Integer galGameVoteByUseSum() {
         String qq = BaseContext.getCurrentId();
         BaseContext.removeCurrentId();
-        return galGameVoteMapper.galGameVoteByUseCount(qq);
+        Integer useCount = galGameVoteMapper.galGameVoteByUseCount(qq);
+        if(useCount == null){
+            return 0;
+        }
+        return useCount;
     }
 
 
