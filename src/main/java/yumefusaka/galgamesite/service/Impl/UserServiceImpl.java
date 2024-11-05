@@ -18,7 +18,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public User login(UserLoginDTO userLoginDTO) throws Exception {
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("qq", userLoginDTO.getQq()));
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("uin", userLoginDTO.getUin()));
         if(user == null){
            throw new Exception("嘻嘻,你的账号并不在Game&Love唷");
         }

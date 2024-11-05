@@ -3,19 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="yumefusaka.galgamesite.mapper.GalGameMapper">
 
-    <select id="galGameVoteItemSearch" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteItemSearchVO">
+    <select id="galGameTwelveVotingGameInfoList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO">
         SELECT
-            g.name,
+            g.translated_name,
             g.subject_id,
-            g.url,
-            IFNULL(SUM(v.vote_num), 0) AS totalVote
+            g.img_url,
+            IFNULL(SUM(v.votes_cast_count), 0) AS totalVotes
         FROM
             galgame g
         LEFT JOIN
-            galgame_vote v ON g.subject_id = v.subject_id
+            galgame_twelve_voting v ON g.subject_id = v.galgame_subject_id
         WHERE
-            g.name LIKE CONCAT('%', #{searchName}, '%')
+            g.translated_name LIKE CONCAT('%', #{translatedName}, '%')
         GROUP BY
             g.id
     </select>
+
 </mapper>

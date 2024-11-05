@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class UserLoginDTO {
 
-    String qq;
+    String uin;
 
 }

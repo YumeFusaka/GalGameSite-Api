@@ -55,7 +55,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         //5.解析token，如果解析失败，返回错误结果（未登录）
         try {
             Claims claims = JwtUtils.parseToken(jwtProperties.getSecretKey(), token);
-            BaseContext.setCurrentId((String) claims.get("qq"));
+            BaseContext.setCurrentId((String) claims.get("uin"));
         } catch (Exception e) {
             log.info("令牌解析失败!");
 

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yumefusaka.galgamesite.mapper.GalGameTwelveVotingMapper">
+
+    <select id="galGameTwelveVotingResultList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO">
+        select
+            sum(v.votes_cast_count) as totalVotes,
+            g.*
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN
+            galgame g ON v.galgame_subject_id = g.subject_id
+        GROUP BY
+            v.galgame_subject_id
+        ORDER BY
+            totalVotes DESC
+    </select>
+
+<!--    <select id="selectGalGameVoteHistory" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteHistoryVO">-->
+<!--        select-->
+<!--            v.id,-->
+<!--            v.vote_num as voteByMe,-->
+<!--            g.subject_id,-->
+<!--            g.url,-->
+<!--            g.name-->
+<!--        FROM-->
+<!--            galgame_vote v-->
+<!--        LEFT JOIN-->
+<!--            galgame g ON v.subject_id = g.subject_id-->
+<!--        where-->
+<!--            qq = #{qq}-->
+<!--        GROUP BY-->
+<!--            v.subject_id-->
+<!--    </select>-->
+
+<!--    <select id="galGameVoteByUseCount" resultType="java.lang.Integer">-->
+<!--        select-->
+<!--            sum(v.vote_num)-->
+<!--        FROM-->
+<!--            galgame_vote v-->
+<!--        where-->
+<!--            qq = #{qq}-->
+<!--    </select>-->
+
+<!--    <select id="galGameVoteResultByUser" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultByUserVO">-->
+<!--        select-->
+<!--            v.id,-->
+<!--            v.vote_num as voteByUser,-->
+<!--            v.qq_name,-->
+<!--            g.subject_id,-->
+<!--            g.url,-->
+<!--            g.name,-->
+<!--            g.nick,-->
+<!--            g.rank,-->
+<!--            g.votes,-->
+<!--            g.info,-->
+<!--            g.score,-->
+<!--            t.myVote-->
+<!--        from-->
+<!--            galgame_vote v-->
+<!--                left join galgame g on v.subject_id = g.subject_id-->
+<!--                left join (-->
+<!--                select-->
+<!--                    subject_id,-->
+<!--                    sum(vote_num) as myVote-->
+<!--                from-->
+<!--                    galgame_vote-->
+<!--                group by subject_id-->
+<!--            ) t on v.subject_id = t.subject_id-->
+<!--        where-->
+<!--            v.qq = #{qq}-->
+<!--          and v.subject_id = #{subjectId}-->
+<!--    </select>-->
+
+<!--    <select id="galGameVoteResultRank" resultType="java.lang.Long">-->
+<!--        SELECT myRank FROM (-->
+<!--             SELECT-->
+<!--                 subject_id,-->
+<!--                 ROW_NUMBER() OVER (ORDER BY sum(vote_num) DESC) AS myRank-->
+<!--             FROM-->
+<!--                 galgame_vote-->
+<!--             GROUP BY-->
+<!--                 subject_id-->
+<!--         ) AS rank_table-->
+<!--        WHERE subject_id = #{subjectId}-->
+<!--    </select>-->
+
+<!--    <select id="galGameVoteResultVote" resultType="java.lang.Long">-->
+<!--        select-->
+<!--            sum(v.vote_num) as myVote-->
+<!--        FROM-->
+<!--            galgame_vote v-->
+<!--                LEFT JOIN-->
+<!--            galgame g ON v.subject_id = g.subject_id-->
+<!--        WHERE-->
+<!--            v.subject_id = #{subjectId}-->
+<!--        GROUP BY-->
+<!--            v.subject_id-->
+
+<!--    </select>-->
+</mapper>

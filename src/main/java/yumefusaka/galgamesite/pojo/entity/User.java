@@ -1,8 +1,10 @@
 package yumefusaka.galgamesite.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,19 +12,27 @@ import java.time.LocalDateTime;
 @Data
 @TableName("user")
 public class User {
-
     @TableId(value = "id", type = IdType.AUTO)
-    Long id;
+    private Long id;
 
-    String qq;
+    @TableField("uin")
+    private String uin;
 
-    Integer qYear;
+    @TableField("gender")
+    private String gender;
 
-    String gender;
+    @TableField("nick")
+    private String nick;
 
-    String nickName;
+    @TableField("card")
+    private String card;
 
-    String groupName;
+    @TableField("join_time")
+    private LocalDateTime joinTime;
 
-    LocalDateTime enterTime;
+    @TableField("generation")
+    private Long generation;
+
+    @TableField("role")
+    private String role;
 }

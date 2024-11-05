@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import yumefusaka.galgamesite.common.result.Result;
 
-@RestControllerAdvice(basePackages = {"yumefusaka.galgamesite.controller"},annotations = {RestController.class})
+@RestControllerAdvice(basePackages = {"yumefusaka.galgamesite.controller.user", "yumefusaka.galgamesite.controller.activity"},annotations = {RestController.class})
 public class GlobalExceptionHandler {
 
     //处理异常

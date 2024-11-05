@@ -7,22 +7,22 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("galgame_vote")
-public class GalGameVote {
+@TableName("galGame_twelve_voting")
+public class GalGameTwelveVoting {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     private Long subjectId;
 
-    private Integer voteNum;
+    private Long votesCastCount;
 
-    private String qq;
+    private String userUin;
 
-    private String qqName;
+    private String userNick;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    private String gameName;
+    private String galgameTranslatedName;
 }

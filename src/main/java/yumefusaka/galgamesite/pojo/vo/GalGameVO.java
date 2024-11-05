@@ -1,24 +1,28 @@
 package yumefusaka.galgamesite.pojo.vo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class GalGameVO {
 
-    String name;
+    Long id;
+
+    String translatedName;
 
     String info;
 
-    String score;
+    Double score;
 
-    String rank;
+    Long rank;
 
-    String votes;
-
-    String nick;
+    String numberOfRatings;
 
     Long subjectId;
 
-    String url;
+    String originalName;
+
+    String imgUrl;
 }

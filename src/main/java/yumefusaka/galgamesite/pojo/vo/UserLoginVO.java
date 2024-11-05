@@ -3,8 +3,8 @@ package yumefusaka.galgamesite.pojo.vo;
 import lombok.Data;
 
 @Data
-public class LoginVO {
+public class UserLoginVO {
     String token;
 
-    String nickName;
+    String nick;
 }

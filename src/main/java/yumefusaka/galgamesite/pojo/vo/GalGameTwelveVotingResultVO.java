@@ -5,9 +5,9 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GalGameVoteResultVO extends GalGameVO {
+public class GalGameTwelveVotingResultVO extends GalGameVO {
 
-    Long myVote;
+    Long totalVotes;
 
-    Long myRank;
+    Long totalRank;
 }
