@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import yumefusaka.galgamesite.common.result.Result;
 import yumefusaka.galgamesite.mapper.GalGameMapper;
+import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO;
 
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO;
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO;
+import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoByMyselfVO;
 import yumefusaka.galgamesite.service.IGalGameTwelveVotingService;
 
 import java.util.List;
@@ -52,16 +54,16 @@ public class GalGameTwelveVotingController {
     }
 
     @Operation(summary = "获取本人已投的总票数")
-    @GetMapping("/votes-cast-count")
-    public Result<Long> galGameTwelveVotingVotesCastCount () {
-        return Result.success(galGameTwelveVotingService.galGameTwelveVotingVotesCastCount());
+    @GetMapping("/votes-cast-count/total")
+    public Result<Long> galGameTwelveVotingVotesCastCountTotal () {
+        return Result.success(galGameTwelveVotingService.galGameTwelveVotingVotesCastCountTotal());
     }
-//
-//    @Operation(summary = "获取作品信息与投票数")
-//    @PostMapping("/activity/galGameVoteResultByUser")
-//    public Result<GalGameVoteResultByUserVO> galGameVoteResultByUser(@RequestBody GalGameVoteResultByUserDTO galGameVoteResultByUserDTO){
-//        return Result.success(galGameVoteService.galGameVoteResultByUser(galGameVoteResultByUserDTO));
-//    }
+
+    @Operation(summary = "获取作品信息与投票数")
+    @PostMapping("/game-info/by-myself")
+    public Result<GalGameTwelveVotingGameInfoByMyselfVO> galGameTwelveVotingGameInfoByMyself(@RequestBody GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO){
+        return Result.success(galGameTwelveVotingService.galGameTwelveVotingGameInfoByMyself(galGameSearchBySubjectIdDTO));
+    }
 //
 //    @Operation(summary = "发起投票")
 //    @PostMapping("/activity/galGameVoteSubmit")

@@ -13,7 +13,7 @@ public class GalGameTwelveVoting {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long subjectId;
+    private Long galgameSubjectId;
 
     private Long votesCastCount;
 

@@ -1,6 +1,7 @@
 package yumefusaka.galgamesite.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
 import yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoting;
@@ -17,9 +18,9 @@ public interface IGalGameTwelveVotingService extends IService<GalGameTwelveVotin
 
     List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList();
 
-    Long galGameTwelveVotingVotesCastCount();
-//
-//    GalGameVoteResultByUserVO galGameVoteResultByUser(GalGameVoteResultByUserDTO galGameVoteResultByUserDTO);
+    Long galGameTwelveVotingVotesCastCountTotal();
+
+    GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO);
 //
 //    Long galGameVoteResultRank(Long subjectId);
 //

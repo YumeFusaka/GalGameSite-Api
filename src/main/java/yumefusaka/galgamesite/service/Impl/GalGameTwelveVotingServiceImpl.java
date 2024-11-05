@@ -1,9 +1,11 @@
 package yumefusaka.galgamesite.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,10 @@ import yumefusaka.galgamesite.common.context.BaseContext;
 import yumefusaka.galgamesite.mapper.GalGameMapper;
 import yumefusaka.galgamesite.mapper.GalGameTwelveVotingMapper;
 import yumefusaka.galgamesite.mapper.UserMapper;
+import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
+import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoting;
 
 import yumefusaka.galgamesite.pojo.vo.*;
@@ -60,46 +64,55 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     }
 
     @Override
-    public Long galGameTwelveVotingVotesCastCount() {
+    public Long galGameTwelveVotingVotesCastCountTotal() {
         String uin = BaseContext.getCurrentId();
         BaseContext.removeCurrentId();
-        Long votingVotesCastCount = galGameTwelveVotingMapper.galGameTwelveVotingVotesCastCount(uin);
+        Long votingVotesCastCount = galGameTwelveVotingMapper.galGameTwelveVotingVotesCastCountTotal(uin);
         if(votingVotesCastCount == null){
             return 0L;
         }
         return votingVotesCastCount;
     }
-//
-//
-//
-//    @Override
-//    public GalGameVoteResultByUserVO galGameVoteResultByUser(GalGameVoteResultByUserDTO galGameVoteResultByUserDTO) {
-//        String qq = BaseContext.getCurrentId();
-//        BaseContext.removeCurrentId();
-//
-//        GalGameVoteResultByUserVO galGameVoteResultByUserVO;
-//        List<GalGameTwelveVoting> galGameVote1 = galGameVoteMapper.selectList(new QueryWrapper<GalGameTwelveVoting>()
-//                .eq("qq", qq).eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//        if(galGameVote1.isEmpty()){
-//            GalGame galGame = galGameMapper.selectOne(new QueryWrapper<GalGame>()
-//                    .eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//            galGameVoteResultByUserVO = new GalGameVoteResultByUserVO();
-//            BeanUtils.copyProperties(galGame, galGameVoteResultByUserVO);
-//        }else{
-//            galGameVoteResultByUserVO =
-//                    galGameVoteMapper.galGameVoteResultByUser(qq, galGameVoteResultByUserDTO.getSubjectId());
-//        }
-//        List<GalGameTwelveVoting> galGameVote2 = galGameVoteMapper.selectList(new QueryWrapper<GalGameTwelveVoting>()
-//                .eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//        if(!galGameVote2.isEmpty()){
-//            galGameVoteResultByUserVO.setMyRank(
-//                    galGameVoteMapper.galGameVoteResultRank(galGameVoteResultByUserDTO.getSubjectId()));
-//            Long myVote = galGameVoteMapper.galGameVoteResultVote(galGameVoteResultByUserDTO.getSubjectId());
-//            galGameVoteResultByUserVO.setMyVote(myVote);
-//        }
-//        return galGameVoteResultByUserVO;
-//    }
-//
+
+
+
+    @Override
+    public GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO) {
+        String uin = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
+
+        GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyselfVO;
+        List<GalGameTwelveVoting> galGameTwelveVotingList1 = galGameTwelveVotingMapper.selectList(new QueryWrapper<GalGameTwelveVoting>()
+                .eq("user_uin", uin).eq("galgame_subject_id", galGameSearchBySubjectIdDTO.getSubjectId()));
+
+        // 查询自己对该作品的投票记录
+        if(galGameTwelveVotingList1.isEmpty()){
+            // 如果自己没有对该作品投票，则获取该作品的其他信息
+            GalGame galGame = galGameMapper.selectOne(new QueryWrapper<GalGame>()
+                    .eq("subject_id", galGameSearchBySubjectIdDTO.getSubjectId()));
+
+            galGameTwelveVotingGameInfoByMyselfVO = new GalGameTwelveVotingGameInfoByMyselfVO();
+            BeanUtils.copyProperties(galGame, galGameTwelveVotingGameInfoByMyselfVO);
+        }else{
+            // 如果自己对该作品投过票，则获取该作品信息
+            galGameTwelveVotingGameInfoByMyselfVO =
+                    galGameTwelveVotingMapper.galGameTwelveVotingGameInfoByMyself(uin, galGameSearchBySubjectIdDTO.getSubjectId());
+        }
+        List<GalGameTwelveVoting> galGameTwelveVotingList2 = galGameTwelveVotingMapper.selectList(new QueryWrapper<GalGameTwelveVoting>()
+                .eq("galgame_subject_id", galGameSearchBySubjectIdDTO.getSubjectId()));
+
+        // 查询该作品是否有人投过票
+        if(!galGameTwelveVotingList2.isEmpty()){
+            // 如果有则顺带获取排名和总票数
+            galGameTwelveVotingGameInfoByMyselfVO.setTotalRank(
+                    galGameTwelveVotingMapper.galGameTwelveVotingResultTotalRank(galGameSearchBySubjectIdDTO.getSubjectId()));
+            Long totalVotes = galGameTwelveVotingMapper.galGameTwelveVotingResultTotalVotes(galGameSearchBySubjectIdDTO.getSubjectId());
+            galGameTwelveVotingGameInfoByMyselfVO.setTotalVotes(totalVotes);
+        }
+        return galGameTwelveVotingGameInfoByMyselfVO;
+    }
+
+
 //    @Override
 //    public Long galGameVoteResultRank(Long subjectId) {
 //        return galGameVoteMapper.galGameVoteResultRank(subjectId);

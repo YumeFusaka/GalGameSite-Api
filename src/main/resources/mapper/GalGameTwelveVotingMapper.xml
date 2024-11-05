@@ -20,7 +20,7 @@
     <select id="galGameTwelveVotingHistoryList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO">
         select
             v.id,
-            v.votes_cast_count as votesCastCount,
+            v.votes_cast_count,
             g.subject_id,
             g.img_url,
             g.translated_name
@@ -34,69 +34,67 @@
             v.galgame_subject_id
     </select>
 
-    <select id="galGameTwelveVotingVotesCastCount" resultType="java.lang.Long">
+    <select id="galGameTwelveVotingVotesCastCountTotal" resultType="java.lang.Long">
         select
-            sum(v.votes_cast_count)
+            sum(v.votes_cast_count) as votesCastCount
         FROM
             galgame_twelve_voting v
         where
             user_uin = #{uin}
     </select>
 
-<!--    <select id="galGameVoteResultByUser" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultByUserVO">-->
-<!--        select-->
-<!--            v.id,-->
-<!--            v.vote_num as voteByUser,-->
-<!--            v.qq_name,-->
-<!--            g.subject_id,-->
-<!--            g.url,-->
-<!--            g.name,-->
-<!--            g.nick,-->
-<!--            g.rank,-->
-<!--            g.votes,-->
-<!--            g.info,-->
-<!--            g.score,-->
-<!--            t.myVote-->
-<!--        from-->
-<!--            galgame_vote v-->
-<!--                left join galgame g on v.subject_id = g.subject_id-->
-<!--                left join (-->
-<!--                select-->
-<!--                    subject_id,-->
-<!--                    sum(vote_num) as myVote-->
-<!--                from-->
-<!--                    galgame_vote-->
-<!--                group by subject_id-->
-<!--            ) t on v.subject_id = t.subject_id-->
-<!--        where-->
-<!--            v.qq = #{qq}-->
-<!--          and v.subject_id = #{subjectId}-->
-<!--    </select>-->
+    <select id="galGameTwelveVotingGameInfoByMyself" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoByMyselfVO">
+        select
+            v.id,
+            v.votes_cast_count,
+            g.subject_id,
+            g.img_url,
+            g.translated_name,
+            g.original_name,
+            g.rank,
+            g.number_of_ratings,
+            g.info,
+            g.score,
+            t.total_votes
+        from
+            galgame_twelve_voting v
+                left join galgame g on v.galgame_subject_id = g.subject_id
+                left join (
+                select
+                    galgame_subject_id,
+                    sum(votes_cast_count) as total_votes
+                from
+                    galgame_twelve_voting
+                group by galgame_subject_id
+            ) t on v.galgame_subject_id = t.galgame_subject_id
+        where
+            v.user_uin = #{uin}
+          and v.galgame_subject_id = #{subjectId}
+    </select>
 
-<!--    <select id="galGameVoteResultRank" resultType="java.lang.Long">-->
-<!--        SELECT myRank FROM (-->
-<!--             SELECT-->
-<!--                 subject_id,-->
-<!--                 ROW_NUMBER() OVER (ORDER BY sum(vote_num) DESC) AS myRank-->
-<!--             FROM-->
-<!--                 galgame_vote-->
-<!--             GROUP BY-->
-<!--                 subject_id-->
-<!--         ) AS rank_table-->
-<!--        WHERE subject_id = #{subjectId}-->
-<!--    </select>-->
+    <select id="galGameTwelveVotingResultTotalRank" resultType="java.lang.Long">
+        SELECT total_rank FROM (
+             SELECT
+                 galgame_subject_id,
+                 ROW_NUMBER() OVER (ORDER BY sum(votes_cast_count) DESC) AS total_rank
+             FROM
+                 galgame_twelve_voting
+             GROUP BY
+                 galgame_subject_id
+         ) AS rank_table
+        WHERE galgame_subject_id = #{subjectId}
+    </select>
 
-<!--    <select id="galGameVoteResultVote" resultType="java.lang.Long">-->
-<!--        select-->
-<!--            sum(v.vote_num) as myVote-->
-<!--        FROM-->
-<!--            galgame_vote v-->
-<!--                LEFT JOIN-->
-<!--            galgame g ON v.subject_id = g.subject_id-->
-<!--        WHERE-->
-<!--            v.subject_id = #{subjectId}-->
-<!--        GROUP BY-->
-<!--            v.subject_id-->
-
-<!--    </select>-->
+    <select id="galGameTwelveVotingResultTotalVotes" resultType="java.lang.Long">
+        select
+            sum(v.votes_cast_count) as totalVotes
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN
+            galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.galgame_subject_id = #{subjectId}
+        GROUP BY
+            v.galgame_subject_id
+    </select>
 </mapper>
