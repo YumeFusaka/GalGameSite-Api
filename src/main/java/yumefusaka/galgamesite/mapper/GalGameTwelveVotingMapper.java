@@ -3,6 +3,7 @@ package yumefusaka.galgamesite.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoting;
+import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO;
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO;
 
 
@@ -14,7 +15,7 @@ public interface GalGameTwelveVotingMapper extends BaseMapper<GalGameTwelveVotin
 
     List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList();
 
-//    List<GalGameVoteHistoryVO> selectGalGameVoteHistory(String qq);
+    List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList(String uin);
 //
 //    Integer galGameVoteByUseCount(String qq);
 //

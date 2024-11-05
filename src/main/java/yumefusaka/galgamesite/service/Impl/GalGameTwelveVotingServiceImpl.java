@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import yumefusaka.galgamesite.common.context.BaseContext;
 import yumefusaka.galgamesite.mapper.GalGameMapper;
 import yumefusaka.galgamesite.mapper.GalGameTwelveVotingMapper;
 import yumefusaka.galgamesite.mapper.UserMapper;
@@ -50,14 +51,14 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     public List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList() {
         return galGameTwelveVotingMapper.galGameTwelveVotingResultList();
     }
-//
-//    @Override
-//    public List<GalGameVoteHistoryVO> getGalGameVoteHistory() {
-//        String qq = BaseContext.getCurrentId();
-//        BaseContext.removeCurrentId();
-//        return galGameVoteMapper.selectGalGameVoteHistory(qq);
-//    }
-//
+
+    @Override
+    public List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList() {
+        String uin = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
+        return galGameTwelveVotingMapper.galGameTwelveVotingHistoryList(uin);
+    }
+
 //    @Override
 //    public Integer galGameVoteByUseSum() {
 //        String qq = BaseContext.getCurrentId();

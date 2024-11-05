@@ -11,6 +11,7 @@ import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO;
 
+import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO;
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO;
 import yumefusaka.galgamesite.service.IGalGameTwelveVotingService;
 
@@ -42,17 +43,14 @@ public class GalGameTwelveVotingController {
         List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultVOS = galGameTwelveVotingService.galGameTwelveVotingResultList();
         return Result.success(galGameTwelveVotingResultVOS);
     }
-//
-//
-//
-//
-//    @Operation(summary = "获取本人GalGame投票历史")
-//    @GetMapping("/activity/galGameVoteHistory/list")
-//    public Result<List<GalGameVoteHistoryVO>> galGameVoteHistory () {
-//        List<GalGameVoteHistoryVO> galGameVoteHistoryVOS = galGameVoteService.getGalGameVoteHistory();
-//        return Result.success(galGameVoteHistoryVOS);
-//    }
-//
+
+    @Operation(summary = "获取本人GalGame投票历史")
+    @GetMapping("/history/list")
+    public Result<List<GalGameTwelveVotingHistoryVO>> galGameTwelveVotingHistoryList () {
+        List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryVOS = galGameTwelveVotingService.galGameTwelveVotingHistoryList();
+        return Result.success(galGameTwelveVotingHistoryVOS);
+    }
+
 //    @Operation(summary = "获取本人已投的总票数")
 //    @GetMapping("/activity/galGameVoteByUseCount")
 //    public Result<Integer> galGameVoteByUseCount () {

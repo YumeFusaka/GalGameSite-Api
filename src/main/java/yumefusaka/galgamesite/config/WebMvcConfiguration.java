@@ -23,10 +23,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(loginCheckInterceptor)
                 .addPathPatterns("/user/**")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/activity/galGameVoteItemSearch/list")
-                .excludePathPatterns("/user/activity/galGameVoteResult/list")
-                .excludePathPatterns("/user/galGame/total");
+                .addPathPatterns("/galgame/**")
+                .addPathPatterns("/activity/**");
+
     }
 
     //设置静态资源映射
