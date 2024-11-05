@@ -34,14 +34,14 @@
             v.galgame_subject_id
     </select>
 
-<!--    <select id="galGameVoteByUseCount" resultType="java.lang.Integer">-->
-<!--        select-->
-<!--            sum(v.vote_num)-->
-<!--        FROM-->
-<!--            galgame_vote v-->
-<!--        where-->
-<!--            qq = #{qq}-->
-<!--    </select>-->
+    <select id="galGameTwelveVotingVotesCastCount" resultType="java.lang.Long">
+        select
+            sum(v.votes_cast_count)
+        FROM
+            galgame_twelve_voting v
+        where
+            user_uin = #{uin}
+    </select>
 
 <!--    <select id="galGameVoteResultByUser" resultType="yumefusaka.galgamesite.pojo.vo.GalGameVoteResultByUserVO">-->
 <!--        select-->

@@ -16,8 +16,8 @@ public interface GalGameTwelveVotingMapper extends BaseMapper<GalGameTwelveVotin
     List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList();
 
     List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList(String uin);
-//
-//    Integer galGameVoteByUseCount(String qq);
+
+    Long galGameTwelveVotingVotesCastCount(String uin);
 //
 //    GalGameVoteResultByUserVO galGameVoteResultByUser(String qq, Long subjectId);
 //

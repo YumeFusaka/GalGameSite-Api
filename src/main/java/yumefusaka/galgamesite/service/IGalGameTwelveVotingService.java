@@ -17,7 +17,7 @@ public interface IGalGameTwelveVotingService extends IService<GalGameTwelveVotin
 
     List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList();
 
-//    Integer galGameVoteByUseSum();
+    Long galGameTwelveVotingVotesCastCount();
 //
 //    GalGameVoteResultByUserVO galGameVoteResultByUser(GalGameVoteResultByUserDTO galGameVoteResultByUserDTO);
 //

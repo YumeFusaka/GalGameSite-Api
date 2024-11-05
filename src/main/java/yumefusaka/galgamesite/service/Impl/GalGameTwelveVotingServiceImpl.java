@@ -59,16 +59,16 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
         return galGameTwelveVotingMapper.galGameTwelveVotingHistoryList(uin);
     }
 
-//    @Override
-//    public Integer galGameVoteByUseSum() {
-//        String qq = BaseContext.getCurrentId();
-//        BaseContext.removeCurrentId();
-//        Integer useCount = galGameVoteMapper.galGameVoteByUseCount(qq);
-//        if(useCount == null){
-//            return 0;
-//        }
-//        return useCount;
-//    }
+    @Override
+    public Long galGameTwelveVotingVotesCastCount() {
+        String uin = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
+        Long votingVotesCastCount = galGameTwelveVotingMapper.galGameTwelveVotingVotesCastCount(uin);
+        if(votingVotesCastCount == null){
+            return 0L;
+        }
+        return votingVotesCastCount;
+    }
 //
 //
 //

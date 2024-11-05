@@ -51,11 +51,11 @@ public class GalGameTwelveVotingController {
         return Result.success(galGameTwelveVotingHistoryVOS);
     }
 
-//    @Operation(summary = "获取本人已投的总票数")
-//    @GetMapping("/activity/galGameVoteByUseCount")
-//    public Result<Integer> galGameVoteByUseCount () {
-//        return Result.success(galGameVoteService.galGameVoteByUseSum());
-//    }
+    @Operation(summary = "获取本人已投的总票数")
+    @GetMapping("/votes-cast-count")
+    public Result<Long> galGameTwelveVotingVotesCastCount () {
+        return Result.success(galGameTwelveVotingService.galGameTwelveVotingVotesCastCount());
+    }
 //
 //    @Operation(summary = "获取作品信息与投票数")
 //    @PostMapping("/activity/galGameVoteResultByUser")
