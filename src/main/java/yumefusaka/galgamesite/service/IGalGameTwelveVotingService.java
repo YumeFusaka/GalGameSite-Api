@@ -12,18 +12,18 @@ import java.util.List;
 
 public interface IGalGameTwelveVotingService extends IService<GalGameTwelveVoting> {
 
-    List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO);
+    List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO);
 
 
-    List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList();
+    List<GalGameTwelveVotingResultVO> getGalGameTwelveVotingResultList();
 
-    List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList();
+    List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList();
 
-    Long galGameTwelveVotingVotesCastCountTotal();
+    Long getGalGameTwelveVotingVotesCastCountTotal();
 
-    GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO);
+    GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO);
 
-    Long galGameTwelveVotingResultTotalRank(Long subjectId);
+    Long getGalGameTwelveVotingResultTotalRank(Long subjectId);
 
-    void galGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception;
+    void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception;
 }

@@ -40,7 +40,7 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
 
 
     @Override
-    public List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO) {
+    public List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO) {
 
         long pageNo = gameSearchByTranslatedNameDTO.getPageNo(), pageSize = gameSearchByTranslatedNameDTO.getPageSize();
 
@@ -48,28 +48,28 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
 
         page.addOrder(new OrderItem());
 
-        return galGameMapper.galGameTwelveVotingGameInfoList(page, gameSearchByTranslatedNameDTO.getTranslatedName());
+        return galGameMapper.getGalGameTwelveVotingGameInfoList(page, gameSearchByTranslatedNameDTO.getTranslatedName());
     }
 
 
 
     @Override
-    public List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList() {
-        return galGameTwelveVotingMapper.galGameTwelveVotingResultList();
+    public List<GalGameTwelveVotingResultVO> getGalGameTwelveVotingResultList() {
+        return galGameTwelveVotingMapper.getGalGameTwelveVotingResultList();
     }
 
     @Override
-    public List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList() {
+    public List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList() {
         String uin = BaseContext.getCurrentId();
         BaseContext.removeCurrentId();
-        return galGameTwelveVotingMapper.galGameTwelveVotingHistoryList(uin);
+        return galGameTwelveVotingMapper.getGalGameTwelveVotingHistoryList(uin);
     }
 
     @Override
-    public Long galGameTwelveVotingVotesCastCountTotal() {
+    public Long getGalGameTwelveVotingVotesCastCountTotal() {
         String uin = BaseContext.getCurrentId();
         BaseContext.removeCurrentId();
-        Long votingVotesCastCount = galGameTwelveVotingMapper.galGameTwelveVotingVotesCastCountTotal(uin);
+        Long votingVotesCastCount = galGameTwelveVotingMapper.getGalGameTwelveVotingVotesCastCountTotal(uin);
         if(votingVotesCastCount == null){
             return 0L;
         }
@@ -79,7 +79,7 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
 
 
     @Override
-    public GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO) {
+    public GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO) {
         String uin = BaseContext.getCurrentId();
         BaseContext.removeCurrentId();
 
@@ -98,7 +98,7 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
         }else{
             // 如果自己对该作品投过票，则获取该作品信息
             galGameTwelveVotingGameInfoByMyselfVO =
-                    galGameTwelveVotingMapper.galGameTwelveVotingGameInfoByMyself(uin, galGameSearchBySubjectIdDTO.getSubjectId());
+                    galGameTwelveVotingMapper.getGalGameTwelveVotingGameInfoByMyself(uin, galGameSearchBySubjectIdDTO.getSubjectId());
         }
         List<GalGameTwelveVoting> galGameTwelveVotingList2 = galGameTwelveVotingMapper.selectList(new QueryWrapper<GalGameTwelveVoting>()
                 .eq("galgame_subject_id", galGameSearchBySubjectIdDTO.getSubjectId()));
@@ -107,8 +107,8 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
         if(!galGameTwelveVotingList2.isEmpty()){
             // 如果有则顺带获取排名和总票数
             galGameTwelveVotingGameInfoByMyselfVO.setTotalRank(
-                    galGameTwelveVotingMapper.galGameTwelveVotingResultTotalRank(galGameSearchBySubjectIdDTO.getSubjectId()));
-            Long totalVotes = galGameTwelveVotingMapper.galGameTwelveVotingResultTotalVotes(galGameSearchBySubjectIdDTO.getSubjectId());
+                    galGameTwelveVotingMapper.getGalGameTwelveVotingResultTotalRank(galGameSearchBySubjectIdDTO.getSubjectId()));
+            Long totalVotes = galGameTwelveVotingMapper.getGalGameTwelveVotingResultTotalVotes(galGameSearchBySubjectIdDTO.getSubjectId());
             galGameTwelveVotingGameInfoByMyselfVO.setTotalVotes(totalVotes);
         }
         return galGameTwelveVotingGameInfoByMyselfVO;
@@ -116,18 +116,18 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
 
 
     @Override
-    public Long galGameTwelveVotingResultTotalRank(Long subjectId) {
-        return galGameTwelveVotingMapper.galGameTwelveVotingResultTotalRank(subjectId);
+    public Long getGalGameTwelveVotingResultTotalRank(Long subjectId) {
+        return galGameTwelveVotingMapper.getGalGameTwelveVotingResultTotalRank(subjectId);
     }
 
     @Override
-    public void galGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
+    public void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
         String uin = BaseContext.getCurrentId();
 
         GalGameTwelveVoting galGameVoteExist = galGameTwelveVotingMapper.selectOne(new QueryWrapper<GalGameTwelveVoting>()
                 .eq("user_uin", uin).eq("galgame_subject_id", galGameTwelveVotingInitiateVoteDTO.getSubjectId()));
 
-        long leftover = 30 - galGameTwelveVotingVotesCastCountTotal();
+        long leftover = 30 - getGalGameTwelveVotingVotesCastCountTotal();
 
         if(galGameVoteExist == null){
             if(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount() != 0){

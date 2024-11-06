@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="yumefusaka.galgamesite.mapper.GalGameTwelveVotingMapper">
 
-    <select id="galGameTwelveVotingResultList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO">
+    <select id="getGalGameTwelveVotingResultList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO">
         select
             sum(v.votes_cast_count) as totalVotes,
             g.*
@@ -17,7 +17,7 @@
             totalVotes DESC
     </select>
 
-    <select id="galGameTwelveVotingHistoryList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO">
+    <select id="getGalGameTwelveVotingHistoryList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO">
         select
             v.id,
             v.votes_cast_count,
@@ -34,7 +34,7 @@
             v.galgame_subject_id
     </select>
 
-    <select id="galGameTwelveVotingVotesCastCountTotal" resultType="java.lang.Long">
+    <select id="getGalGameTwelveVotingVotesCastCountTotal" resultType="java.lang.Long">
         select
             sum(v.votes_cast_count) as votesCastCount
         FROM
@@ -43,7 +43,7 @@
             user_uin = #{uin}
     </select>
 
-    <select id="galGameTwelveVotingGameInfoByMyself" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoByMyselfVO">
+    <select id="getGalGameTwelveVotingGameInfoByMyself" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoByMyselfVO">
         select
             v.id,
             v.votes_cast_count,
@@ -72,7 +72,7 @@
           and v.galgame_subject_id = #{subjectId}
     </select>
 
-    <select id="galGameTwelveVotingResultTotalRank" resultType="java.lang.Long">
+    <select id="getGalGameTwelveVotingResultTotalRank" resultType="java.lang.Long">
         SELECT total_rank FROM (
              SELECT
                  galgame_subject_id,
@@ -85,7 +85,7 @@
         WHERE galgame_subject_id = #{subjectId}
     </select>
 
-    <select id="galGameTwelveVotingResultTotalVotes" resultType="java.lang.Long">
+    <select id="getGalGameTwelveVotingResultTotalVotes" resultType="java.lang.Long">
         select
             sum(v.votes_cast_count) as totalVotes
         FROM

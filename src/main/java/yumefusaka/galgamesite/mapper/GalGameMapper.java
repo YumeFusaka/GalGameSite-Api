@@ -11,6 +11,6 @@ import java.util.List;
 @Mapper
 public interface GalGameMapper extends BaseMapper<GalGame> {
 
-    List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoList(Page<GalGameTwelveVotingGameInfoVO> page, String translatedName);
+    List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(Page<GalGameTwelveVotingGameInfoVO> page, String translatedName);
 
 }

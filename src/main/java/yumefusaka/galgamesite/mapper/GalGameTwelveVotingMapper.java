@@ -14,15 +14,15 @@ import java.util.List;
 public interface GalGameTwelveVotingMapper extends BaseMapper<GalGameTwelveVoting> {
 
 
-    List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultList();
+    List<GalGameTwelveVotingResultVO> getGalGameTwelveVotingResultList();
 
-    List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryList(String uin);
+    List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList(String uin);
 
-    Long galGameTwelveVotingVotesCastCountTotal(String uin);
+    Long getGalGameTwelveVotingVotesCastCountTotal(String uin);
 
-    GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself(String uin, Long subjectId);
+    GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(String uin, Long subjectId);
 
-    Long galGameTwelveVotingResultTotalRank(Long subjectId);
+    Long getGalGameTwelveVotingResultTotalRank(Long subjectId);
 
-    Long galGameTwelveVotingResultTotalVotes(Long subjectId);
+    Long getGalGameTwelveVotingResultTotalVotes(Long subjectId);
 }

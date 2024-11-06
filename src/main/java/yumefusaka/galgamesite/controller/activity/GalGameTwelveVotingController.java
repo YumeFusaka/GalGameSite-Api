@@ -35,42 +35,42 @@ public class GalGameTwelveVotingController {
 
     @Operation(summary = "获取GalGame投票列表")
     @PostMapping("/game-info/list")
-    public Result<List<GalGameTwelveVotingGameInfoVO>> galGameTwelveVotingGameInfoList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
-        List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoVOS = galGameTwelveVotingService.galGameTwelveVotingGameInfoList(galGameSearchByTranslatedNameDTO);
+    public Result<List<GalGameTwelveVotingGameInfoVO>> getGalGameTwelveVotingGameInfoList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
+        List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoVOS = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoList(galGameSearchByTranslatedNameDTO);
         return Result.success(galGameTwelveVotingGameInfoVOS);
     }
 
     @Operation(summary = "获取GalGame投票结果")
     @GetMapping("/result/list")
-    public Result<List<GalGameTwelveVotingResultVO>> galGameTwelveVotingResultList () {
-        List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultVOS = galGameTwelveVotingService.galGameTwelveVotingResultList();
+    public Result<List<GalGameTwelveVotingResultVO>> getGalGameTwelveVotingResultList () {
+        List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultVOS = galGameTwelveVotingService.getGalGameTwelveVotingResultList();
         return Result.success(galGameTwelveVotingResultVOS);
     }
 
     @Operation(summary = "获取本人GalGame投票历史")
     @GetMapping("/history/list")
-    public Result<List<GalGameTwelveVotingHistoryVO>> galGameTwelveVotingHistoryList () {
-        List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryVOS = galGameTwelveVotingService.galGameTwelveVotingHistoryList();
+    public Result<List<GalGameTwelveVotingHistoryVO>> getGalGameTwelveVotingHistoryList () {
+        List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryVOS = galGameTwelveVotingService.getGalGameTwelveVotingHistoryList();
         return Result.success(galGameTwelveVotingHistoryVOS);
     }
 
     @Operation(summary = "获取本人已投的总票数")
     @GetMapping("/votes-cast-count/total")
-    public Result<Long> galGameTwelveVotingVotesCastCountTotal () {
-        return Result.success(galGameTwelveVotingService.galGameTwelveVotingVotesCastCountTotal());
+    public Result<Long> getGalGameTwelveVotingVotesCastCountTotal () {
+        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingVotesCastCountTotal());
     }
 
     @Operation(summary = "获取作品信息与投票数")
     @PostMapping("/game-info/by-myself")
-    public Result<GalGameTwelveVotingGameInfoByMyselfVO> galGameTwelveVotingGameInfoByMyself(@RequestBody GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO){
-        return Result.success(galGameTwelveVotingService.galGameTwelveVotingGameInfoByMyself(galGameSearchBySubjectIdDTO));
+    public Result<GalGameTwelveVotingGameInfoByMyselfVO> getGalGameTwelveVotingGameInfoByMyself(@RequestBody GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO){
+        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingGameInfoByMyself(galGameSearchBySubjectIdDTO));
     }
 
     @Operation(summary = "发起投票")
     @PostMapping("/initiate-vote")
-    public Result<String> galGameTwelveVotingInitiateVote(@RequestBody GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
-         throw new Exception("投票已经结束了喵~");
-//         galGameTwelveVotingService.galGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
-//         return Result.success("投票成功");
+    public Result<String> postGalGameTwelveVotingInitiateVote(@RequestBody GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
+//         throw new Exception("投票已经结束了喵~");
+         galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
+         return Result.success("投票成功");
     }
 }

@@ -23,14 +23,14 @@ public class GalGameController {
 
     @Operation(summary = "获取GalGame总数")
     @GetMapping("/total")
-    public Result<Long> galGameTotal () {
+    public Result<Long> getGalGameTotal () {
         Long total = galGameService.count();
         return Result.success(total);
     }
 
     @Operation(summary = "获取查询的GalGame总数")
     @PostMapping("/total")
-    public Result<Long> galGameSearchTotal (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
+    public Result<Long> getGalGameSearchByTranslatedNameTotal (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
         Long total = galGameService.count(
                 new QueryWrapper<GalGame>().like(true,"translated_name",galGameSearchByTranslatedNameDTO.getTranslatedName()));
         return Result.success(total);
