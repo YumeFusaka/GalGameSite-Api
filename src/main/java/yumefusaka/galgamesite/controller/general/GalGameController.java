@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import yumefusaka.galgamesite.common.result.Result;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
+import yumefusaka.galgamesite.pojo.vo.GalGameVO;
 import yumefusaka.galgamesite.service.IGalGameService;
+
+import java.util.List;
 
 
 @RestController
@@ -29,10 +32,17 @@ public class GalGameController {
     }
 
     @Operation(summary = "获取查询的GalGame总数")
-    @PostMapping("/total")
+    @PostMapping("/searchByTranslatedName/total")
     public Result<Long> getGalGameSearchByTranslatedNameTotal (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
         Long total = galGameService.count(
                 new QueryWrapper<GalGame>().like(true,"translated_name",galGameSearchByTranslatedNameDTO.getTranslatedName()));
         return Result.success(total);
+    }
+
+    @Operation(summary = "获取查询的GalGame列表")
+    @PostMapping("/searchByTranslatedName/list")
+    public Result<List<GalGameVO>> getGalGameSearchByTranslatedNameList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
+        List<GalGameVO> galGameVOS = galGameService.getGalGameSearchByTranslatedNameList(galGameSearchByTranslatedNameDTO);
+        return Result.success(galGameVOS);
     }
 }
