@@ -3,8 +3,8 @@ package yumefusaka.galgamesite.pojo.dto;
 import lombok.Data;
 
 @Data
-public class GalGameVoteSubmitDTO {
+public class GalGameTwelveVotingInitiateVoteDTO {
     Long subjectId;
 
-    Integer vote;
+    Long votesCastCount;
 }

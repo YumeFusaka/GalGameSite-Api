@@ -10,6 +10,7 @@ import yumefusaka.galgamesite.mapper.GalGameMapper;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
+import yumefusaka.galgamesite.pojo.dto.GalGameTwelveVotingInitiateVoteDTO;
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO;
 
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO;
@@ -64,12 +65,12 @@ public class GalGameTwelveVotingController {
     public Result<GalGameTwelveVotingGameInfoByMyselfVO> galGameTwelveVotingGameInfoByMyself(@RequestBody GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO){
         return Result.success(galGameTwelveVotingService.galGameTwelveVotingGameInfoByMyself(galGameSearchBySubjectIdDTO));
     }
-//
-//    @Operation(summary = "发起投票")
-//    @PostMapping("/activity/galGameVoteSubmit")
-//    public Result<String> galGameVoteSubmit(@RequestBody GalGameVoteSubmitDTO galGameVoteResultByUserDTO) throws Exception {
-//        throw new Exception("投票已经结束了喵~");
-//        // galGameVoteService.galGameVoteSubmit(galGameVoteResultByUserDTO);
-//        // return Result.success("投票成功");
-//    }
+
+    @Operation(summary = "发起投票")
+    @PostMapping("/initiate-vote")
+    public Result<String> galGameTwelveVotingInitiateVote(@RequestBody GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
+         throw new Exception("投票已经结束了喵~");
+//         galGameTwelveVotingService.galGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
+//         return Result.success("投票成功");
+    }
 }

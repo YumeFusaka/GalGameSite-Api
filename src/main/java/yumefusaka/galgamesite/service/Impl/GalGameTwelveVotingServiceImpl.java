@@ -16,9 +16,11 @@ import yumefusaka.galgamesite.mapper.UserMapper;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 
+import yumefusaka.galgamesite.pojo.dto.GalGameTwelveVotingInitiateVoteDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoting;
 
+import yumefusaka.galgamesite.pojo.entity.User;
 import yumefusaka.galgamesite.pojo.vo.*;
 import yumefusaka.galgamesite.service.IGalGameTwelveVotingService;
 
@@ -113,53 +115,53 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     }
 
 
-//    @Override
-//    public Long galGameVoteResultRank(Long subjectId) {
-//        return galGameVoteMapper.galGameVoteResultRank(subjectId);
-//    }
-//
-//    @Override
-//    public void galGameVoteSubmit(GalGameVoteSubmitDTO galGameVoteResultByUserDTO) throws Exception {
-//        String qq = BaseContext.getCurrentId();
-//
-//        GalGameTwelveVoting galGameVoteExist = galGameVoteMapper.selectOne(new QueryWrapper<GalGameTwelveVoting>()
-//                .eq("qq", qq).eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//
-//        Integer leftover = 30 - galGameVoteByUseSum();
-//
-//        if(galGameVoteExist == null){
-//            if(galGameVoteResultByUserDTO.getVote() != 0){
-//                // 1.如果没有记录
-//                if(galGameVoteResultByUserDTO.getVote() > leftover){
-//                    throw new Exception("您的剩余票数不够哦,杂鱼~");
-//                }
-//                User user = userMapper.selectOne(new QueryWrapper<User>().eq("qq", qq));
-//                GalGame galGame = galGameMapper.selectOne(new QueryWrapper<GalGame>()
-//                        .eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//                GalGameTwelveVoting galGameVote = new GalGameTwelveVoting();
-//                galGameVote.setGameName(galGame.getName());
-//                galGameVote.setVoteNum(galGameVoteResultByUserDTO.getVote());
-//                galGameVote.setQq(qq);
-//                galGameVote.setSubjectId(galGameVoteResultByUserDTO.getSubjectId());
-//                galGameVote.setQqName(user.getNickName());
-//                galGameVoteMapper.insert(galGameVote);
-//            }else{
-//                // 2.如果没有记录但是投0票
-//                return;
-//            }
-//        }else{
-//            if(galGameVoteResultByUserDTO.getVote() != 0){
-//                // 3.如果有记录
-//                if(galGameVoteResultByUserDTO.getVote() - galGameVoteExist.getVoteNum() > leftover){
-//                    throw new Exception("您的剩余票数不够哦,杂鱼~");
-//                }
-//                galGameVoteExist.setVoteNum(galGameVoteResultByUserDTO.getVote());
-//                galGameVoteMapper.updateById(galGameVoteExist);
-//            }else{
-//                // 4.如果有记录但是投0票
-//                galGameVoteMapper.delete(new QueryWrapper<GalGameTwelveVoting>()
-//                        .eq("qq", qq).eq("subject_id", galGameVoteResultByUserDTO.getSubjectId()));
-//            }
-//        }
-//    }
+    @Override
+    public Long galGameTwelveVotingResultTotalRank(Long subjectId) {
+        return galGameTwelveVotingMapper.galGameTwelveVotingResultTotalRank(subjectId);
+    }
+
+    @Override
+    public void galGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
+        String uin = BaseContext.getCurrentId();
+
+        GalGameTwelveVoting galGameVoteExist = galGameTwelveVotingMapper.selectOne(new QueryWrapper<GalGameTwelveVoting>()
+                .eq("user_uin", uin).eq("galgame_subject_id", galGameTwelveVotingInitiateVoteDTO.getSubjectId()));
+
+        long leftover = 30 - galGameTwelveVotingVotesCastCountTotal();
+
+        if(galGameVoteExist == null){
+            if(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount() != 0){
+                // 1.如果没有记录
+                if(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount() > leftover){
+                    throw new Exception("您的剩余票数不够哦,杂鱼~");
+                }
+                User user = userMapper.selectOne(new QueryWrapper<User>().eq("uin", uin));
+                GalGame galGame = galGameMapper.selectOne(new QueryWrapper<GalGame>()
+                        .eq("subject_id", galGameTwelveVotingInitiateVoteDTO.getSubjectId()));
+                GalGameTwelveVoting galGameVote = new GalGameTwelveVoting();
+                galGameVote.setGalgameTranslatedName(galGame.getTranslatedName());
+                galGameVote.setVotesCastCount(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount());
+                galGameVote.setUserUin(uin);
+                galGameVote.setGalgameSubjectId(galGameTwelveVotingInitiateVoteDTO.getSubjectId());
+                galGameVote.setUserNick(user.getNick());
+                galGameTwelveVotingMapper.insert(galGameVote);
+            }else{
+                // 2.如果没有记录但是投0票
+                return;
+            }
+        }else{
+            if(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount() != 0){
+                // 3.如果有记录
+                if(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount() - galGameVoteExist.getVotesCastCount() > leftover){
+                    throw new Exception("您的剩余票数不够哦,杂鱼~");
+                }
+                galGameVoteExist.setVotesCastCount(galGameTwelveVotingInitiateVoteDTO.getVotesCastCount());
+                galGameTwelveVotingMapper.updateById(galGameVoteExist);
+            }else{
+                // 4.如果有记录但是投0票
+                galGameTwelveVotingMapper.delete(new QueryWrapper<GalGameTwelveVoting>()
+                        .eq("user_uin", uin).eq("galgame_subject_id", galGameTwelveVotingInitiateVoteDTO.getSubjectId()));
+            }
+        }
+    }
 }
