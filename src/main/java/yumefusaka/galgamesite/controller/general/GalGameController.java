@@ -12,6 +12,7 @@ import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.vo.GalGameVO;
 import yumefusaka.galgamesite.service.IGalGameService;
+import yumefusaka.galgamesite.utils.IKAnalyzerUtils;
 
 import java.util.List;
 
@@ -50,11 +51,19 @@ public class GalGameController {
     @Operation(summary = "通过搜索名获取查询的GalGame总数")
     @PostMapping("/searchByName/total")
     public Result<Long> getGalGameSearchByNameTotal (@RequestBody GalGameSearchByNameDTO galGameSearchByNameDTO) {
+        List<String> keywords;
+        try {
+            keywords = IKAnalyzerUtils.iKSegmenterToList(galGameSearchByNameDTO.getName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         QueryWrapper<GalGame> queryWrapper = new QueryWrapper<GalGame>();
-        queryWrapper
-                .like("LOWER(translated_name)",galGameSearchByNameDTO.getName().toLowerCase())
-                .or()
-                .like("LOWER(original_name)",galGameSearchByNameDTO.getName().toLowerCase());
+        for (String keyword : keywords) {
+            queryWrapper
+                    .like("LOWER(translated_name)", keyword.toLowerCase())
+                    .or()
+                    .like("LOWER(original_name)", keyword.toLowerCase());
+        }
         Long total = galGameService.count(queryWrapper);
         return Result.success(total);
     }

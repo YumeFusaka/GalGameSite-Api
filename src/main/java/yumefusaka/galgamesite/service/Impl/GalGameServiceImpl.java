@@ -16,6 +16,7 @@ import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO;
 import yumefusaka.galgamesite.pojo.vo.GalGameVO;
 import yumefusaka.galgamesite.service.IGalGameService;
+import yumefusaka.galgamesite.utils.IKAnalyzerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +56,20 @@ public class GalGameServiceImpl extends ServiceImpl<GalGameMapper, GalGame> impl
 
         page.addOrder(new OrderItem());
 
-        QueryWrapper<GalGame> queryWrapper = new QueryWrapper<GalGame>();
-        queryWrapper
-                .like("LOWER(translated_name)",galGameSearchByNameDTO.getName().toLowerCase())
-                .or()
-                .like("LOWER(original_name)",galGameSearchByNameDTO.getName().toLowerCase());
+        List<String> keywords;
+        try {
+            keywords = IKAnalyzerUtils.iKSegmenterToList(galGameSearchByNameDTO.getName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
+        QueryWrapper<GalGame> queryWrapper = new QueryWrapper<GalGame>();
+        for (String keyword : keywords) {
+            queryWrapper
+                    .like("LOWER(translated_name)", keyword.toLowerCase())
+                    .or()
+                    .like("LOWER(original_name)", keyword.toLowerCase());
+        }
         Page<GalGame> galGamePage = galGameMapper.selectPage(page, queryWrapper);
 
         List<GalGame> galGames = galGamePage.getRecords();
