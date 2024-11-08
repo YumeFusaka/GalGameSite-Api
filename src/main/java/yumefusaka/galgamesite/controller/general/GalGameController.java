@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import yumefusaka.galgamesite.common.result.Result;
+import yumefusaka.galgamesite.pojo.dto.GalGameSearchByNameDTO;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
 import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.vo.GalGameVO;
@@ -31,7 +32,7 @@ public class GalGameController {
         return Result.success(total);
     }
 
-    @Operation(summary = "获取查询的GalGame总数")
+    @Operation(summary = "通过译名获取查询的GalGame总数")
     @PostMapping("/searchByTranslatedName/total")
     public Result<Long> getGalGameSearchByTranslatedNameTotal (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
         Long total = galGameService.count(
@@ -39,10 +40,29 @@ public class GalGameController {
         return Result.success(total);
     }
 
-    @Operation(summary = "获取查询的GalGame列表")
+    @Operation(summary = "通过译名获取查询的GalGame列表")
     @PostMapping("/searchByTranslatedName/list")
     public Result<List<GalGameVO>> getGalGameSearchByTranslatedNameList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
         List<GalGameVO> galGameVOS = galGameService.getGalGameSearchByTranslatedNameList(galGameSearchByTranslatedNameDTO);
+        return Result.success(galGameVOS);
+    }
+
+    @Operation(summary = "通过搜索名获取查询的GalGame总数")
+    @PostMapping("/searchByName/total")
+    public Result<Long> getGalGameSearchByNameTotal (@RequestBody GalGameSearchByNameDTO galGameSearchByNameDTO) {
+        QueryWrapper<GalGame> queryWrapper = new QueryWrapper<GalGame>();
+        queryWrapper
+                .like("LOWER(translated_name)",galGameSearchByNameDTO.getName().toLowerCase())
+                .or()
+                .like("LOWER(original_name)",galGameSearchByNameDTO.getName().toLowerCase());
+        Long total = galGameService.count(queryWrapper);
+        return Result.success(total);
+    }
+
+    @Operation(summary = "通过搜索名获取查询的GalGame列表")
+    @PostMapping("/searchByName/list")
+    public Result<List<GalGameVO>> getGalGameSearchByNameList (@RequestBody GalGameSearchByNameDTO galGameSearchByNameDTO) {
+        List<GalGameVO> galGameVOS = galGameService.getGalGameSearchByNameList(galGameSearchByNameDTO);
         return Result.success(galGameVOS);
     }
 }

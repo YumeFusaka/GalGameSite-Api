@@ -33,14 +33,14 @@ public class GalGameTwelveVotingController {
     @Autowired
     private IGalGameTwelveVotingService galGameTwelveVotingService;
 
-    @Operation(summary = "获取GalGame投票列表")
+    @Operation(summary = "通过译名获取GalGame投票列表")
     @PostMapping("/game-info/list")
     public Result<List<GalGameTwelveVotingGameInfoVO>> getGalGameTwelveVotingGameInfoList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
         List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoVOS = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoList(galGameSearchByTranslatedNameDTO);
         return Result.success(galGameTwelveVotingGameInfoVOS);
     }
 
-    @Operation(summary = "获取GalGame投票结果")
+    @Operation(summary = "通过译名获取GalGame投票结果")
     @GetMapping("/result/list")
     public Result<List<GalGameTwelveVotingResultVO>> getGalGameTwelveVotingResultList () {
         List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultVOS = galGameTwelveVotingService.getGalGameTwelveVotingResultList();
@@ -69,8 +69,8 @@ public class GalGameTwelveVotingController {
     @Operation(summary = "发起投票")
     @PostMapping("/initiate-vote")
     public Result<String> postGalGameTwelveVotingInitiateVote(@RequestBody GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
-//         throw new Exception("投票已经结束了喵~");
-         galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
-         return Result.success("投票成功");
+         throw new Exception("投票已经结束了喵~");
+//         galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
+//         return Result.success("投票成功");
     }
 }
