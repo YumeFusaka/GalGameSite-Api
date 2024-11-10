@@ -123,6 +123,7 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     @Override
     public void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
         String uin = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
 
         GalGameTwelveVoting galGameVoteExist = galGameTwelveVotingMapper.selectOne(new QueryWrapper<GalGameTwelveVoting>()
                 .eq("user_uin", uin).eq("galgame_subject_id", galGameTwelveVotingInitiateVoteDTO.getSubjectId()));
