@@ -1,11 +1,14 @@
 package yumefusaka.galgamesite.controller.user;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import yumefusaka.galgamesite.common.context.BaseContext;
 import yumefusaka.galgamesite.common.properties.JwtProperties;
 import yumefusaka.galgamesite.common.result.Result;
 import yumefusaka.galgamesite.pojo.dto.*;
@@ -40,5 +43,16 @@ public class UserController {
         loginVO.setToken(token);
         loginVO.setNick(user.getNick());
         return Result.success(loginVO);
+    }
+
+    @Operation(summary = "获取用户信息")
+    @GetMapping("/info")
+    public Result<UserInfoVO> getUserInfo() {
+        String uin = BaseContext.getCurrentId();
+        BaseContext.removeCurrentId();
+        User user= userService.getOne(new QueryWrapper<User>().eq("uin",uin));
+        UserInfoVO userInfoVO = new UserInfoVO();
+        BeanUtils.copyProperties(user, userInfoVO);
+        return Result.success(userInfoVO);
     }
 }
