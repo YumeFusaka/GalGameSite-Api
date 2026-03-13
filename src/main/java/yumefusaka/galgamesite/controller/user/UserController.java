@@ -17,7 +17,9 @@ import yumefusaka.galgamesite.pojo.vo.*;
 import yumefusaka.galgamesite.service.IUserService;
 import yumefusaka.galgamesite.utils.JwtUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -54,5 +56,18 @@ public class UserController {
         UserInfoVO userInfoVO = new UserInfoVO();
         BeanUtils.copyProperties(user, userInfoVO);
         return Result.success(userInfoVO);
+    }
+
+    @Operation(summary = "获取群成员列表")
+    @GetMapping("/list")
+    public Result<List<UserInfoVO>> getUserList(){
+        List<User> userList = userService.list();
+        List<UserInfoVO> userVOList = new ArrayList<>();
+        for(User user:userList){
+            UserInfoVO userInfoVO = new UserInfoVO();
+            BeanUtils.copyProperties(user,userInfoVO);
+            userVOList.add(userInfoVO);
+        }
+        return Result.success(userVOList);
     }
 }
