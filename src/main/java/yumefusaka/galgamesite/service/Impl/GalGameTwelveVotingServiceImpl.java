@@ -121,7 +121,6 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     @Override
     public void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO dto, Integer edition) throws Exception {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
 
         GalGameTwelveVoting existingVote = galGameTwelveVotingMapper.selectOne(
                 new QueryWrapper<GalGameTwelveVoting>()
