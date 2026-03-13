@@ -13,6 +13,7 @@
             galgame g
         LEFT JOIN
             galgame_twelve_voting v ON g.subject_id = v.galgame_subject_id
+            AND v.edition = #{edition}
         WHERE
             g.translated_name LIKE CONCAT('%', #{translatedName}, '%')
         GROUP BY

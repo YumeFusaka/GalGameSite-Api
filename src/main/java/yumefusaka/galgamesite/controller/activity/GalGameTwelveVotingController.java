@@ -35,42 +35,50 @@ public class GalGameTwelveVotingController {
 
     @Operation(summary = "通过译名获取GalGame投票列表")
     @PostMapping("/game-info/list")
-    public Result<List<GalGameTwelveVotingGameInfoVO>> getGalGameTwelveVotingGameInfoList (@RequestBody GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
-        List<GalGameTwelveVotingGameInfoVO> galGameTwelveVotingGameInfoVOS = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoList(galGameSearchByTranslatedNameDTO);
-        return Result.success(galGameTwelveVotingGameInfoVOS);
+    public Result<List<GalGameTwelveVotingGameInfoVO>> getGalGameTwelveVotingGameInfoList(
+            @RequestBody GalGameSearchByTranslatedNameDTO dto,
+            @RequestParam Integer edition) {
+        List<GalGameTwelveVotingGameInfoVO> list = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoList(dto, edition);
+        return Result.success(list);
     }
 
     @Operation(summary = "通过译名获取GalGame投票结果")
     @GetMapping("/result/list")
-    public Result<List<GalGameTwelveVotingResultVO>> getGalGameTwelveVotingResultList () {
-        List<GalGameTwelveVotingResultVO> galGameTwelveVotingResultVOS = galGameTwelveVotingService.getGalGameTwelveVotingResultList();
-        return Result.success(galGameTwelveVotingResultVOS);
+    public Result<List<GalGameTwelveVotingResultVO>> getGalGameTwelveVotingResultList(@RequestParam Integer edition) {
+        List<GalGameTwelveVotingResultVO> list = galGameTwelveVotingService.getGalGameTwelveVotingResultList(edition);
+        return Result.success(list);
     }
 
-    @Operation(summary = "获取本人GalGame投票历史")
+    @Operation(summary = "获取本人GalGame投票历史（按届）")
     @GetMapping("/history/list")
-    public Result<List<GalGameTwelveVotingHistoryVO>> getGalGameTwelveVotingHistoryList () {
-        List<GalGameTwelveVotingHistoryVO> galGameTwelveVotingHistoryVOS = galGameTwelveVotingService.getGalGameTwelveVotingHistoryList();
-        return Result.success(galGameTwelveVotingHistoryVOS);
+    public Result<List<GalGameTwelveVotingHistoryVO>> getGalGameTwelveVotingHistoryList(@RequestParam Integer edition) {
+        List<GalGameTwelveVotingHistoryVO> list = galGameTwelveVotingService.getGalGameTwelveVotingHistoryList(edition);
+        return Result.success(list);
     }
 
-    @Operation(summary = "获取本人已投的总票数")
+    @Operation(summary = "获取本人已投的总票数（按届）")
     @GetMapping("/votes-cast-count/total")
-    public Result<Long> getGalGameTwelveVotingVotesCastCountTotal () {
-        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingVotesCastCountTotal());
+    public Result<Long> getGalGameTwelveVotingVotesCastCountTotal(@RequestParam Integer edition) {
+        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingVotesCastCountTotal(edition));
     }
-
     @Operation(summary = "获取作品信息与投票数")
     @PostMapping("/game-info/by-myself")
-    public Result<GalGameTwelveVotingGameInfoByMyselfVO> getGalGameTwelveVotingGameInfoByMyself(@RequestBody GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO){
-        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingGameInfoByMyself(galGameSearchBySubjectIdDTO));
+    public Result<GalGameTwelveVotingGameInfoByMyselfVO> getGalGameTwelveVotingGameInfoByMyself(
+            @RequestBody GalGameSearchBySubjectIdDTO dto,
+            @RequestParam Integer edition) {
+        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingGameInfoByMyself(dto, edition));
     }
 
     @Operation(summary = "发起投票")
     @PostMapping("/initiate-vote")
-    public Result<String> postGalGameTwelveVotingInitiateVote(@RequestBody GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception {
-         throw new Exception("投票已经结束了喵~");
-//         galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(galGameTwelveVotingInitiateVoteDTO);
-//         return Result.success("投票成功");
+    public Result<String> postGalGameTwelveVotingInitiateVote(
+            @RequestBody GalGameTwelveVotingInitiateVoteDTO dto,
+            @RequestParam Integer edition) throws Exception {
+        if(edition != 2){
+            throw new Exception("投票已经结束了喵~");
+        }else{
+            galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(dto, edition);
+            return Result.success("投票成功");
+        }
     }
 }

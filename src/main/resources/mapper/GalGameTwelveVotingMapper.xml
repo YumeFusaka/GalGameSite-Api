@@ -3,22 +3,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="yumefusaka.galgamesite.mapper.GalGameTwelveVotingMapper">
 
+    <!-- 投票结果列表（按届） -->
     <select id="getGalGameTwelveVotingResultList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingResultVO">
-        select
-            sum(v.votes_cast_count) as totalVotes,
+        SELECT
+            SUM(v.votes_cast_count) AS totalVotes,
             g.*
         FROM
             galgame_twelve_voting v
-                LEFT JOIN
-            galgame g ON v.galgame_subject_id = g.subject_id
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.edition = #{edition}
         GROUP BY
             v.galgame_subject_id
         ORDER BY
             totalVotes DESC
     </select>
 
-    <select id="getGalGameTwelveVotingHistoryList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO">
-        select
+    <!-- 用户投票历史（按届） -->
+    <select id="getGalGameTwelveVotingHistoryListByEdition"
+            resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingHistoryVO">
+        SELECT
             v.id,
             v.votes_cast_count,
             g.subject_id,
@@ -26,25 +30,28 @@
             g.translated_name
         FROM
             galgame_twelve_voting v
-        LEFT JOIN
-            galgame g ON v.galgame_subject_id = g.subject_id
-        where
-            user_uin = #{uin}
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.user_uin = #{uin}
+          AND v.edition = #{edition}
         GROUP BY
             v.galgame_subject_id
     </select>
 
-    <select id="getGalGameTwelveVotingVotesCastCountTotal" resultType="java.lang.Long">
-        select
-            sum(v.votes_cast_count) as votesCastCount
+    <!-- 用户总投票数（按届） -->
+    <select id="getGalGameTwelveVotingVotesCastCountTotalByEdition" resultType="java.lang.Long">
+        SELECT
+            SUM(v.votes_cast_count) AS votesCastCount
         FROM
             galgame_twelve_voting v
-        where
-            user_uin = #{uin}
+        WHERE
+            v.user_uin = #{uin}
+          AND v.edition = #{edition}
     </select>
 
+    <!-- 用户对某作品投票信息（按届） -->
     <select id="getGalGameTwelveVotingGameInfoByMyself" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoByMyselfVO">
-        select
+        SELECT
             v.id,
             v.votes_cast_count,
             g.subject_id,
@@ -56,45 +63,51 @@
             g.info,
             g.score,
             t.total_votes
-        from
+        FROM
             galgame_twelve_voting v
-                left join galgame g on v.galgame_subject_id = g.subject_id
-                left join (
-                select
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+                LEFT JOIN (
+                SELECT
                     galgame_subject_id,
-                    sum(votes_cast_count) as total_votes
-                from
+                    SUM(votes_cast_count) AS total_votes
+                FROM
                     galgame_twelve_voting
-                group by galgame_subject_id
-            ) t on v.galgame_subject_id = t.galgame_subject_id
-        where
+                WHERE edition = #{edition}
+                GROUP BY galgame_subject_id
+            ) t ON v.galgame_subject_id = t.galgame_subject_id
+        WHERE
             v.user_uin = #{uin}
-          and v.galgame_subject_id = #{subjectId}
+          AND v.galgame_subject_id = #{subjectId}
+          AND v.edition = #{edition}
     </select>
 
+    <!-- 总排名（按届） -->
     <select id="getGalGameTwelveVotingResultTotalRank" resultType="java.lang.Long">
         SELECT total_rank FROM (
-             SELECT
-                 galgame_subject_id,
-                 ROW_NUMBER() OVER (ORDER BY sum(votes_cast_count) DESC) AS total_rank
-             FROM
-                 galgame_twelve_voting
-             GROUP BY
-                 galgame_subject_id
-         ) AS rank_table
+                                   SELECT
+                                       galgame_subject_id,
+                                       ROW_NUMBER() OVER (ORDER BY SUM(votes_cast_count) DESC) AS total_rank
+                                   FROM
+                                       galgame_twelve_voting
+                                   WHERE edition = #{edition}
+                                   GROUP BY
+                                       galgame_subject_id
+                               ) AS rank_table
         WHERE galgame_subject_id = #{subjectId}
     </select>
 
+    <!-- 总票数（按届） -->
     <select id="getGalGameTwelveVotingResultTotalVotes" resultType="java.lang.Long">
-        select
-            sum(v.votes_cast_count) as totalVotes
+        SELECT
+            SUM(v.votes_cast_count) AS totalVotes
         FROM
             galgame_twelve_voting v
-                LEFT JOIN
-            galgame g ON v.galgame_subject_id = g.subject_id
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
         WHERE
             v.galgame_subject_id = #{subjectId}
+          AND v.edition = #{edition}
         GROUP BY
             v.galgame_subject_id
     </select>
+
 </mapper>

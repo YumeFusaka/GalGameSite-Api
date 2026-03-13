@@ -12,18 +12,25 @@ import java.util.List;
 
 public interface IGalGameTwelveVotingService extends IService<GalGameTwelveVoting> {
 
-    List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO);
 
+    // 获取投票游戏列表（增加 edition 参数）
+    List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO dto, Integer edition);
 
-    List<GalGameTwelveVotingResultVO> getGalGameTwelveVotingResultList();
+    // 获取投票结果列表（增加 edition 参数）
+    List<GalGameTwelveVotingResultVO> getGalGameTwelveVotingResultList(Integer edition);
 
-    List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList();
+    // 获取投票历史记录
+    List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList(Integer edition);
 
-    Long getGalGameTwelveVotingVotesCastCountTotal();
+    // 获取用户已投票总数
+    Long getGalGameTwelveVotingVotesCastCountTotal(Integer edition);
 
-    GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO);
+    // 获取自己对某作品投票信息（增加 edition 参数）
+    GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO dto, Integer edition);
 
-    Long getGalGameTwelveVotingResultTotalRank(Long subjectId);
+    // 获取某作品总排名（增加 edition 参数）
+    Long getGalGameTwelveVotingResultTotalRank(Long subjectId, Integer edition);
 
-    void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO galGameTwelveVotingInitiateVoteDTO) throws Exception;
+    // 提交投票（增加 edition 参数）
+    void postGalGameTwelveVotingInitiateVote(GalGameTwelveVotingInitiateVoteDTO dto, Integer edition) throws Exception;
 }

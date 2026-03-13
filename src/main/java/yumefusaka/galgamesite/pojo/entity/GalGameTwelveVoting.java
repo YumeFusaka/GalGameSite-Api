@@ -25,4 +25,6 @@ public class GalGameTwelveVoting {
     private LocalDateTime updateTime;
 
     private String galgameTranslatedName;
+
+    private Integer edition;
 }

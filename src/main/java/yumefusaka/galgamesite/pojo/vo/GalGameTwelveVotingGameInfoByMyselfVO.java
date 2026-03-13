@@ -8,5 +8,6 @@ import lombok.EqualsAndHashCode;
 public class GalGameTwelveVotingGameInfoByMyselfVO extends GalGameTwelveVotingResultVO {
 
     Long votesCastCount;
+    Integer edition;
 }
 
