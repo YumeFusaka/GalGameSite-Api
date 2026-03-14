@@ -38,7 +38,6 @@ public class GalGameTierMakerController {
     @GetMapping("/record")
     public Result<GalGameTierMakerRecordVO> getGalGameTierMakerRecord() {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
 
         List<GalGameTierMakerRank> galGameTierMakerRanks = galGameTierMakerRankService.list(
                 new QueryWrapper<GalGameTierMakerRank>().eq("user_uin",uin).orderByAsc("rank_level")
@@ -71,6 +70,8 @@ public class GalGameTierMakerController {
         GalGameTierMakerRecordVO galGameTierMakerRecordVO = new GalGameTierMakerRecordVO();
         galGameTierMakerRecordVO.setRankNameList(rankNameList);
         galGameTierMakerRecordVO.setRankSubjectList(rankSubjectList);
+
+        BaseContext.removeCurrentId();
         return Result.success(galGameTierMakerRecordVO);
     }
 
@@ -78,7 +79,6 @@ public class GalGameTierMakerController {
     @PostMapping("/record")
     public Result<String> postGalGameTierMakerRecord(@RequestBody GalGameTierMakerRecordDTO galGameTierMakerRecordDTO) {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
 
         galGameTierMakerRankService.remove(new QueryWrapper<GalGameTierMakerRank>().eq("user_uin",uin));
         galGameTierMakerSubjectService.remove(new QueryWrapper<GalGameTierMakerSubject>().eq("user_uin",uin));
@@ -107,6 +107,8 @@ public class GalGameTierMakerController {
                 galGameTierMakerSubjectService.save(galGameTierMakerSubject);
             }
         }
+
+        BaseContext.removeCurrentId();
         return Result.success("保存成功");
     }
 

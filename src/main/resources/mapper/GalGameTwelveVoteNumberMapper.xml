@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yumefusaka.galgamesite.mapper.GalGameTwelveVoteNumberMapper">
+
+    <!-- 根据 QQ 号和届次查询票数 -->
+    <select id="selectByUinAndEdition" resultType="yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoteNumber">
+        SELECT
+            id,
+            uin,
+            number,
+            edition
+        FROM
+            galgame_twelve_vote_number
+        WHERE
+            uin = #{uin}
+          AND edition = #{edition}
+    </select>
+
+    <!-- 更新票数 -->
+    <update id="updateNumberByUinAndEdition">
+        UPDATE galgame_twelve_vote_number
+        SET number = #{number}
+        WHERE
+            uin = #{uin}
+          AND edition = #{edition}
+    </update>
+
+</mapper>

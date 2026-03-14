@@ -20,6 +20,7 @@ import yumefusaka.galgamesite.pojo.entity.GalGame;
 import yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoting;
 import yumefusaka.galgamesite.pojo.entity.User;
 import yumefusaka.galgamesite.pojo.vo.*;
+import yumefusaka.galgamesite.service.IGalGameTwelveVoteNumberService;
 import yumefusaka.galgamesite.service.IGalGameTwelveVotingService;
 
 import java.util.List;
@@ -35,6 +36,9 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private IGalGameTwelveVoteNumberService galGameTwelveVoteNumberService;
 
     @Override
     public List<GalGameTwelveVotingGameInfoVO> getGalGameTwelveVotingGameInfoList(GalGameSearchByTranslatedNameDTO gameSearchByTranslatedNameDTO, Integer edition) {
@@ -56,21 +60,19 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
     @Override
     public List<GalGameTwelveVotingHistoryVO> getGalGameTwelveVotingHistoryList(Integer edition) {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
         return galGameTwelveVotingMapper.getGalGameTwelveVotingHistoryListByEdition(uin, edition);
     }
 
     @Override
     public Long getGalGameTwelveVotingVotesCastCountTotal(Integer edition) {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
         Long count = galGameTwelveVotingMapper.getGalGameTwelveVotingVotesCastCountTotalByEdition(uin, edition);
         return count == null ? 0L : count;
     }
     @Override
     public GalGameTwelveVotingGameInfoByMyselfVO getGalGameTwelveVotingGameInfoByMyself(GalGameSearchBySubjectIdDTO galGameSearchBySubjectIdDTO, Integer edition) {
         String uin = BaseContext.getCurrentId();
-        BaseContext.removeCurrentId();
+
 
         GalGameTwelveVotingGameInfoByMyselfVO vo;
 
@@ -129,7 +131,8 @@ public class GalGameTwelveVotingServiceImpl extends ServiceImpl<GalGameTwelveVot
                         .eq("edition", edition)
         );
 
-        long leftover = 30 - getGalGameTwelveVotingVotesCastCountTotal(edition);
+        long leftover = galGameTwelveVoteNumberService.getUserVoteNumber(edition)
+                - getGalGameTwelveVotingVotesCastCountTotal(edition);
 
         if(existingVote == null) {
             if(dto.getVotesCastCount() != 0) {

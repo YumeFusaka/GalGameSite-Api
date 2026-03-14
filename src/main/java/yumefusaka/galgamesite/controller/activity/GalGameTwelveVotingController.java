@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import yumefusaka.galgamesite.common.context.BaseContext;
 import yumefusaka.galgamesite.common.result.Result;
 import yumefusaka.galgamesite.mapper.GalGameMapper;
 import yumefusaka.galgamesite.pojo.dto.GalGameSearchBySubjectIdDTO;
@@ -39,6 +40,7 @@ public class GalGameTwelveVotingController {
             @RequestBody GalGameSearchByTranslatedNameDTO dto,
             @RequestParam Integer edition) {
         List<GalGameTwelveVotingGameInfoVO> list = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoList(dto, edition);
+        BaseContext.removeCurrentId();
         return Result.success(list);
     }
 
@@ -46,6 +48,7 @@ public class GalGameTwelveVotingController {
     @GetMapping("/result/list")
     public Result<List<GalGameTwelveVotingResultVO>> getGalGameTwelveVotingResultList(@RequestParam Integer edition) {
         List<GalGameTwelveVotingResultVO> list = galGameTwelveVotingService.getGalGameTwelveVotingResultList(edition);
+        BaseContext.removeCurrentId();
         return Result.success(list);
     }
 
@@ -53,20 +56,25 @@ public class GalGameTwelveVotingController {
     @GetMapping("/history/list")
     public Result<List<GalGameTwelveVotingHistoryVO>> getGalGameTwelveVotingHistoryList(@RequestParam Integer edition) {
         List<GalGameTwelveVotingHistoryVO> list = galGameTwelveVotingService.getGalGameTwelveVotingHistoryList(edition);
+        BaseContext.removeCurrentId();
         return Result.success(list);
     }
 
     @Operation(summary = "获取本人已投的总票数（按届）")
     @GetMapping("/votes-cast-count/total")
     public Result<Long> getGalGameTwelveVotingVotesCastCountTotal(@RequestParam Integer edition) {
-        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingVotesCastCountTotal(edition));
+        Long galGameTwelveVotingVotesCastCountTotal = galGameTwelveVotingService.getGalGameTwelveVotingVotesCastCountTotal(edition);
+        BaseContext.removeCurrentId();
+        return Result.success(galGameTwelveVotingVotesCastCountTotal);
     }
     @Operation(summary = "获取作品信息与投票数")
     @PostMapping("/game-info/by-myself")
     public Result<GalGameTwelveVotingGameInfoByMyselfVO> getGalGameTwelveVotingGameInfoByMyself(
             @RequestBody GalGameSearchBySubjectIdDTO dto,
             @RequestParam Integer edition) {
-        return Result.success(galGameTwelveVotingService.getGalGameTwelveVotingGameInfoByMyself(dto, edition));
+        GalGameTwelveVotingGameInfoByMyselfVO galGameTwelveVotingGameInfoByMyself = galGameTwelveVotingService.getGalGameTwelveVotingGameInfoByMyself(dto, edition);
+        BaseContext.removeCurrentId();
+        return Result.success(galGameTwelveVotingGameInfoByMyself);
     }
 
     @Operation(summary = "发起投票")
@@ -78,6 +86,7 @@ public class GalGameTwelveVotingController {
             throw new Exception("投票已经结束了喵~");
         }else{
             galGameTwelveVotingService.postGalGameTwelveVotingInitiateVote(dto, edition);
+            BaseContext.removeCurrentId();
             return Result.success("投票成功");
         }
     }
