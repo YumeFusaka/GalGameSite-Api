@@ -7,7 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import galgamesite.common.result.Result;
 
-@RestControllerAdvice(basePackages = {"galgamesite.controller.user", "galgamesite.controller.activity"},annotations = {RestController.class})
+@RestControllerAdvice(
+        basePackages = {
+                "galgamesite.controller.user",
+                "galgamesite.controller.activity",
+                "galgamesite.controller.general"
+        },
+        annotations = {RestController.class}
+)
 public class GlobalExceptionHandler {
 
     //处理异常

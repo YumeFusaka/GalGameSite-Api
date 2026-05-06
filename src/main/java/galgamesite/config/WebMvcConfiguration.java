@@ -22,10 +22,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
         registry.addInterceptor(loginCheckInterceptor)
-                .addPathPatterns("/user/**")
-                .addPathPatterns("/galgame/**")
-                .addPathPatterns("/activity/**")
-                .excludePathPatterns("/user/login");
+                .addPathPatterns("/users/**")
+                .addPathPatterns("/games/**")
+                .addPathPatterns("/activities/**")
+                .excludePathPatterns("/users/sessions");
 
     }
 

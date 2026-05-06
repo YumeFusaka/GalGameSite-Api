@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="galgamesite.mapper.TwelveVotingMapper">
+
+    <!-- 投票结果列表（按届） -->
+    <select id="selectResultsByEdition" resultType="galgamesite.pojo.response.activity.VotingResultResponse">
+        SELECT
+            SUM(v.votes_cast_count) AS totalVotes,
+            g.*
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.edition = #{edition}
+        GROUP BY
+            v.galgame_subject_id
+        ORDER BY
+            totalVotes DESC
+    </select>
+
+    <!-- 用户投票历史（按届） -->
+    <select id="selectRecordsByEdition"
+            resultType="galgamesite.pojo.response.activity.VotingRecordResponse">
+        SELECT
+            v.id,
+            v.votes_cast_count,
+            g.subject_id,
+            g.img_url,
+            g.translated_name
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.user_uin = #{uin}
+          AND v.edition = #{edition}
+        GROUP BY
+            v.galgame_subject_id
+    </select>
+
+    <!-- 用户总投票数（按届） -->
+    <select id="sumUsedVotesByEdition" resultType="java.lang.Long">
+        SELECT
+            SUM(v.votes_cast_count) AS votesCastCount
+        FROM
+            galgame_twelve_voting v
+        WHERE
+            v.user_uin = #{uin}
+          AND v.edition = #{edition}
+    </select>
+
+    <!-- 用户对某作品投票信息（按届） -->
+    <select id="selectBallotBySubjectAndEdition" resultType="galgamesite.pojo.response.activity.VoteBallotResponse">
+        SELECT
+            v.id,
+            v.votes_cast_count,
+            g.subject_id,
+            g.img_url,
+            g.translated_name,
+            g.original_name,
+            g.rank,
+            g.number_of_ratings,
+            g.info,
+            g.score,
+            t.total_votes
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+                LEFT JOIN (
+                SELECT
+                    galgame_subject_id,
+                    SUM(votes_cast_count) AS total_votes
+                FROM
+                    galgame_twelve_voting
+                WHERE edition = #{edition}
+                GROUP BY galgame_subject_id
+            ) t ON v.galgame_subject_id = t.galgame_subject_id
+        WHERE
+            v.user_uin = #{uin}
+          AND v.galgame_subject_id = #{subjectId}
+          AND v.edition = #{edition}
+    </select>
+
+    <!-- 总排名（按届） -->
+    <select id="selectRankBySubjectAndEdition" resultType="java.lang.Long">
+        SELECT total_rank FROM (
+                                   SELECT
+                                       galgame_subject_id,
+                                       ROW_NUMBER() OVER (ORDER BY SUM(votes_cast_count) DESC) AS total_rank
+                                   FROM
+                                       galgame_twelve_voting
+                                   WHERE edition = #{edition}
+                                   GROUP BY
+                                       galgame_subject_id
+                               ) AS rank_table
+        WHERE galgame_subject_id = #{subjectId}
+    </select>
+
+    <!-- 总票数（按届） -->
+    <select id="sumVotesBySubjectAndEdition" resultType="java.lang.Long">
+        SELECT
+            SUM(v.votes_cast_count) AS totalVotes
+        FROM
+            galgame_twelve_voting v
+                LEFT JOIN galgame g ON v.galgame_subject_id = g.subject_id
+        WHERE
+            v.galgame_subject_id = #{subjectId}
+          AND v.edition = #{edition}
+        GROUP BY
+            v.galgame_subject_id
+    </select>
+
+</mapper>
