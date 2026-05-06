@@ -13,7 +13,7 @@ spring:
     password: j
 
 mybatis-plus:
-  type-aliases-package: yumefusaka.galgamesite.pojo.Entity # ?????
+  type-aliases-package: galgamesite.pojo.entity # ?????
   mapper-locations: "classpath*:/mapper/**/*.xml" # Mapper.xml????????
   configuration:
     map-underscore-to-camel-case: true # ?????????????
@@ -24,11 +24,10 @@ mybatis-plus:
 
 logging:
   level:
-    yumefusaka:
-      galgamesite:
-        mapper: debug
-        service: info
-        controller: info
+    galgamesite:
+      mapper: debug
+      service: info
+      controller: info
 
 # jwt????
 jwt:
@@ -45,4 +44,3 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
-

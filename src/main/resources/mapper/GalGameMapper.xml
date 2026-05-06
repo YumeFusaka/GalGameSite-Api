@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="yumefusaka.galgamesite.mapper.GalGameMapper">
+<mapper namespace="galgamesite.mapper.GalGameMapper">
 
-    <select id="getGalGameTwelveVotingGameInfoList" resultType="yumefusaka.galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO">
+    <select id="getGalGameTwelveVotingGameInfoList" resultType="galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO">
         SELECT
             g.translated_name,
             g.subject_id,

@@ -8,7 +8,7 @@
         <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>yumefusaka</groupId>
+    <groupId>galgamesite</groupId>
     <artifactId>GalGameSite</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>GalGameSite</name>

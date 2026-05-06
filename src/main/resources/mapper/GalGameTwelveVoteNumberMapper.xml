@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="yumefusaka.galgamesite.mapper.GalGameTwelveVoteNumberMapper">
+<mapper namespace="galgamesite.mapper.GalGameTwelveVoteNumberMapper">
 
     <!-- 根据 QQ 号和届次查询票数 -->
-    <select id="selectByUinAndEdition" resultType="yumefusaka.galgamesite.pojo.entity.GalGameTwelveVoteNumber">
+    <select id="selectByUinAndEdition" resultType="galgamesite.pojo.entity.GalGameTwelveVoteNumber">
         SELECT
             id,
             uin,

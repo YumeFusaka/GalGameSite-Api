@@ -1,0 +1,86 @@
+package galgamesite.service.Impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import galgamesite.mapper.GalGameMapper;
+
+import galgamesite.pojo.dto.GalGameSearchByNameDTO;
+import galgamesite.pojo.dto.GalGameSearchByTranslatedNameDTO;
+import galgamesite.pojo.entity.GalGame;
+
+import galgamesite.pojo.vo.GalGameTwelveVotingGameInfoVO;
+import galgamesite.pojo.vo.GalGameVO;
+import galgamesite.service.IGalGameService;
+import galgamesite.utils.IKAnalyzerUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class GalGameServiceImpl extends ServiceImpl<GalGameMapper, GalGame> implements IGalGameService {
+
+    @Autowired
+    private GalGameMapper galGameMapper;
+
+    @Override
+    public List<GalGameVO> getGalGameSearchByTranslatedNameList(GalGameSearchByTranslatedNameDTO galGameSearchByTranslatedNameDTO) {
+        long pageNo = galGameSearchByTranslatedNameDTO.getPageNo(), pageSize = galGameSearchByTranslatedNameDTO.getPageSize();
+
+        Page<GalGame> page = Page.of(pageNo, pageSize);
+
+        page.addOrder(new OrderItem());
+
+        Page<GalGame> galGamePage = galGameMapper.selectPage(page,
+                new QueryWrapper<GalGame>().like("translated_name", galGameSearchByTranslatedNameDTO.getTranslatedName()));
+        List<GalGame> galGames = galGamePage.getRecords();
+
+        List<GalGameVO> galGameVOS = new ArrayList<>();
+        for (GalGame galGame : galGames){
+            GalGameVO galGameVO = new GalGameVO();
+            BeanUtils.copyProperties(galGame,galGameVO);
+            galGameVOS.add(galGameVO);
+        }
+        return galGameVOS;
+    }
+
+    @Override
+    public List<GalGameVO> getGalGameSearchByNameList(GalGameSearchByNameDTO galGameSearchByNameDTO) {
+        long pageNo = galGameSearchByNameDTO.getPageNo(), pageSize = galGameSearchByNameDTO.getPageSize();
+
+        Page<GalGame> page = Page.of(pageNo, pageSize);
+
+        page.addOrder(new OrderItem());
+
+        List<String> keywords;
+        try {
+            keywords = IKAnalyzerUtils.iKSegmenterToList(galGameSearchByNameDTO.getName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        QueryWrapper<GalGame> queryWrapper = new QueryWrapper<GalGame>();
+        for (String keyword : keywords) {
+            queryWrapper
+                    .like("LOWER(translated_name)", keyword.toLowerCase())
+                    .or()
+                    .like("LOWER(original_name)", keyword.toLowerCase());
+        }
+        Page<GalGame> galGamePage = galGameMapper.selectPage(page, queryWrapper);
+
+        List<GalGame> galGames = galGamePage.getRecords();
+
+        List<GalGameVO> galGameVOS = new ArrayList<>();
+        for (GalGame galGame : galGames){
+            GalGameVO galGameVO = new GalGameVO();
+            BeanUtils.copyProperties(galGame,galGameVO);
+            galGameVOS.add(galGameVO);
+        }
+        return galGameVOS;
+    }
+
+}
